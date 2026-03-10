@@ -1,7 +1,7 @@
 ---
 paths:
-  - "Slides/**/*.tex"
-  - "Quarto/**/*.qmd"
+  - "slides/**/*.tex"
+  - "quarto/**/*.qmd"
 ---
 
 # Beamer → Quarto Auto-Sync Rule (MANDATORY)
@@ -17,8 +17,8 @@ When you modify a Beamer `.tex` file, you MUST also apply the equivalent change 
 <!-- Customize this table for your lectures -->
 | Lecture | Beamer | Quarto |
 |---------|--------|--------|
-| 1 | `Slides/Lecture1_Topic.tex` | `Quarto/Lecture1_Topic.qmd` |
-| 2 | `Slides/Lecture2_Topic.tex` | `Quarto/Lecture2_Topic.qmd` |
+| 1 | `slides/Lecture1_Topic.tex` | `quarto/Lecture1_Topic.qmd` |
+| 2 | `slides/Lecture2_Topic.tex` | `quarto/Lecture2_Topic.qmd` |
 <!-- Add rows as you create lectures -->
 
 ## Workflow (Every Time)

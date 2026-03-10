@@ -258,8 +258,8 @@ If you prefer to configure things yourself instead of letting Claude handle it:
 ```bash
 # In Claude Code, type:
 /compile-latex MyFirstLecture
-/proofread Slides/MyFirstLecture.tex
-python scripts/quality_score.py Slides/MyFirstLecture.tex
+/proofread slides/MyFirstLecture.tex
+python scripts/quality_score.py slides/MyFirstLecture.tex
 ```
 :::
 
@@ -541,7 +541,7 @@ The first three always-on rules total ~148 lines of actionable instructions. `me
 ---
 paths:
   - "**/*.R"
-  - "Figures/**/*.R"
+  - "figures/**/*.R"
   - "scripts/**/*.R"
 ---
 ```
@@ -596,7 +596,7 @@ argument-hint: "[filename without .tex extension]"
 ---
 
 # Steps:
-1. cd to Slides/
+1. cd to slides/
 2. Run xelatex pass 1
 3. Run bibtex
 4. Run xelatex pass 2
@@ -743,7 +743,7 @@ Use it for:
 
 ## Key Facts
 - Project uses XeLaTeX, not pdflatex
-- Bibliography file: Bibliography_base.bib
+- Bibliography file: bibliography_base.bib
 
 ## Corrections Log
 - [LEARN:r-code] Package X drops obs silently when covariate is missing
@@ -1273,7 +1273,7 @@ explorations/
 │   ├── R/                  # Code iterations (_v1, _v2)
 │   ├── scripts/            # Test scripts
 │   └── output/             # Results
-└── ARCHIVE/
+└── archive/
     ├── completed_[name]/   # Graduated to production
     └── abandoned_[name]/   # Documented why stopped
 ```
@@ -1327,7 +1327,7 @@ Five skills support the research workflow beyond slide development:
 | `/review-paper [file]` | Full manuscript review with referee objections | Before submission or after a draft |
 | `/data-analysis [data]` | End-to-end R analysis: explore, regress, produce publication-ready output | Empirical analysis phase |
 
-These skills produce structured reports saved to `quality_reports/`. The `/data-analysis` skill also generates R scripts (saved to `scripts/R/`) and runs the r-reviewer agent automatically.
+These skills produce structured reports saved to `quality_reports/`. The `/data-analysis` skill also generates R scripts (saved to `scripts/r/`) and runs the r-reviewer agent automatically.
 
 #### The Research Lifecycle as a Dependency Graph
 
@@ -1941,7 +1941,7 @@ For capabilities beyond file editing and shell commands --- web search during li
 | Rule | File | Triggers On |
 |------|------|------------|
 | Verification Protocol | `verification-protocol.md` | `.tex`, `.qmd`, `docs/` |
-| Single Source of Truth | `single-source-of-truth.md` | `Figures/`, `.tex`, `.qmd` |
+| Single Source of Truth | `single-source-of-truth.md` | `figures/`, `.tex`, `.qmd` |
 | Quality Gates | `quality-gates.md` | `.tex`, `.qmd`, `*.R` |
 | R Code Conventions | `r-code-conventions.md` | `*.R` |
 | TikZ Quality | `tikz-visual-quality.md` | `.tex` |
@@ -1975,7 +1975,7 @@ For capabilities beyond file editing and shell commands --- web search during li
 
 **Fix:**
 1. Check you have XeLaTeX installed: `which xelatex`
-2. Ensure `TEXINPUTS` includes `Preambles/`: the `/compile-latex` skill handles this
+2. Ensure `TEXINPUTS` includes `preambles/`: the `/compile-latex` skill handles this
 3. Missing package? Install via TeX Live: `tlmgr install [package]`
 
 ### Quarto Won't Render

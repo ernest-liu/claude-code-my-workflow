@@ -15,8 +15,8 @@ For each modified file, verify that the appropriate output works correctly. Run 
 
 ### For `.tex` files (Beamer slides):
 ```bash
-cd Slides
-TEXINPUTS=../Preambles:$TEXINPUTS xelatex -interaction=nonstopmode FILENAME.tex 2>&1 | tail -20
+cd slides
+TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode FILENAME.tex 2>&1 | tail -20
 ```
 - Check exit code (0 = success)
 - Grep for `Overfull \\hbox` warnings — count them
@@ -35,7 +35,7 @@ TEXINPUTS=../Preambles:$TEXINPUTS xelatex -interaction=nonstopmode FILENAME.tex 
 
 ### For `.R` files (R scripts):
 ```bash
-Rscript scripts/R/FILENAME.R 2>&1 | tail -20
+Rscript scripts/r/FILENAME.R 2>&1 | tail -20
 ```
 - Check exit code
 - Verify output files (PDF, RDS) were created
@@ -49,13 +49,13 @@ Rscript scripts/R/FILENAME.R 2>&1 | tail -20
 ### TikZ Freshness Check (MANDATORY):
 **Before verifying any QMD that references TikZ SVGs:**
 1. Read the Beamer `.tex` file — extract all `\begin{tikzpicture}` blocks
-2. Read `Figures/LectureN/extract_tikz.tex` — extract all tikzpicture blocks
+2. Read `figures/LectureN/extract_tikz.tex` — extract all tikzpicture blocks
 3. Compare each block
 4. Report: `FRESH` or `STALE — N diagrams differ`
 
 ### For deployment (`docs/` directory):
 - Check that `docs/slides/` contains the expected HTML files
-- Check that `docs/Figures/` is synced with `Figures/`
+- Check that `docs/figures/` is synced with `figures/`
 - Verify image paths in HTML resolve to existing files
 
 ### For bibliography:

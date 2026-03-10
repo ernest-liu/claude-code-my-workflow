@@ -1,7 +1,7 @@
 ---
 paths:
   - "**/*.R"
-  - "Figures/**/*.R"
+  - "figures/**/*.R"
   - "scripts/**/*.R"
 ---
 

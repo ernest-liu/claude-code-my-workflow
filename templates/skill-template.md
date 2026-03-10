@@ -147,7 +147,7 @@ Step 1: **Extract in-text citations**
    - Build list of cited keys
 
 Step 2: **Parse bibliography file**
-   - Read Bibliography_base.bib (or specified .bib file)
+   - Read bibliography_base.bib (or specified .bib file)
    - Extract all `@article{key,`, `@book{key,` entries
 
 Step 3: **Cross-reference**
@@ -167,7 +167,7 @@ Step 4: **Report findings**
 **Actions:**
 1. Grep for `\citep{` in manuscript.tex
 2. Extract keys: `Smith2020`, `Jones2019`, `Lee2021`
-3. Parse Bibliography_base.bib
+3. Parse bibliography_base.bib
 4. Find `Lee2021` missing
 **Result:** Report: "Missing entry: Lee2021. Add to bibliography before submission."
 

@@ -2870,8 +2870,8 @@ You see: &quot;Analysis complete. 3 tables, 4 figures. Score: 85/100.&quot;</cod
 <p><strong>Test it:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In Claude Code, type:</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/compile-latex</span> MyFirstLecture</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">/proofread</span> Slides/MyFirstLecture.tex</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/quality_score.py Slides/MyFirstLecture.tex</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">/proofread</span> slides/MyFirstLecture.tex</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/quality_score.py slides/MyFirstLecture.tex</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -3281,7 +3281,7 @@ APPROVED   NEEDS WORK
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">paths</span><span class="kw">:</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;**/*.R&quot;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;Figures/**/*.R&quot;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;figures/**/*.R&quot;</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;scripts/**/*.R&quot;</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># R Code Standards</span></span>
@@ -3329,7 +3329,7 @@ APPROVED   NEEDS WORK
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Steps:</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="at">1. cd to Slides/</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="at">1. cd to slides/</span></span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="at">2. Run xelatex pass 1</span></span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="at">3. Run bibtex</span></span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="at">4. Run xelatex pass 2</span></span>
@@ -3538,7 +3538,7 @@ APPROVED   NEEDS WORK
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Facts</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Project uses XeLaTeX, not pdflatex</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bibliography file: Bibliography_base.bib</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bibliography file: bibliography_base.bib</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Corrections Log</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">LEARN:r-code</span><span class="co">]</span> Package X drops obs silently when covariate is missing</span>
@@ -4334,7 +4334,7 @@ Phase 4: QUALITY GATE
 │   ├── R/                  # Code iterations (_v1, _v2)
 │   ├── scripts/            # Test scripts
 │   └── output/             # Results
-└── ARCHIVE/
+└── archive/
     ├── completed_[name]/   # Graduated to production
     └── abandoned_[name]/   # Documented why stopped</code></pre>
 </section>
@@ -4436,7 +4436,7 @@ Decision point (1-2 hours):
 </tr>
 </tbody>
 </table>
-<p>These skills produce structured reports saved to <code>quality_reports/</code>. The <code>/data-analysis</code> skill also generates R scripts (saved to <code>scripts/R/</code>) and runs the r-reviewer agent automatically.</p>
+<p>These skills produce structured reports saved to <code>quality_reports/</code>. The <code>/data-analysis</code> skill also generates R scripts (saved to <code>scripts/r/</code>) and runs the r-reviewer agent automatically.</p>
 <section id="the-research-lifecycle-as-a-dependency-graph" class="level4" data-number="5.9.3.1">
 <h4 data-number="5.9.3.1" class="anchored" data-anchor-id="the-research-lifecycle-as-a-dependency-graph"><span class="header-section-number">5.9.3.1</span> The Research Lifecycle as a Dependency Graph</h4>
 <p>A research project is not a waterfall — it is a <strong>dependency graph</strong>. Some phases run in parallel; others are strictly sequential:</p>
@@ -5421,7 +5421,7 @@ Decision point (1-2 hours):
 <tr class="even">
 <td>Single Source of Truth</td>
 <td><code>single-source-of-truth.md</code></td>
-<td><code>Figures/</code>, <code>.tex</code>, <code>.qmd</code></td>
+<td><code>figures/</code>, <code>.tex</code>, <code>.qmd</code></td>
 </tr>
 <tr class="odd">
 <td>Quality Gates</td>
@@ -5545,7 +5545,7 @@ Decision point (1-2 hours):
 <section id="latex-wont-compile" class="level3" data-number="8.5.1">
 <h3 data-number="8.5.1" class="anchored" data-anchor-id="latex-wont-compile"><span class="header-section-number">8.5.1</span> LaTeX Won’t Compile</h3>
 <p><strong>Symptom:</strong> <code>xelatex</code> errors or missing packages.</p>
-<p><strong>Fix:</strong> 1. Check you have XeLaTeX installed: <code>which xelatex</code> 2. Ensure <code>TEXINPUTS</code> includes <code>Preambles/</code>: the <code>/compile-latex</code> skill handles this 3. Missing package? Install via TeX Live: <code>tlmgr install [package]</code></p>
+<p><strong>Fix:</strong> 1. Check you have XeLaTeX installed: <code>which xelatex</code> 2. Ensure <code>TEXINPUTS</code> includes <code>preambles/</code>: the <code>/compile-latex</code> skill handles this 3. Missing package? Install via TeX Live: <code>tlmgr install [package]</code></p>
 </section>
 <section id="quarto-wont-render" class="level3" data-number="8.5.2">
 <h3 data-number="8.5.2" class="anchored" data-anchor-id="quarto-wont-render"><span class="header-section-number">8.5.2</span> Quarto Won’t Render</h3>

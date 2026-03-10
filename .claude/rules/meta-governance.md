@@ -36,7 +36,7 @@ When creating or modifying content, ask:
 - Rules that adapt to user context (path-scoped rules)
 
 **SPECIFIC (keep local or gitignore):**
-- Machine-specific paths (`TEXINPUTS=../Preambles` on macOS)
+- Machine-specific paths (`TEXINPUTS=../preambles` on macOS)
 - Tool versions (`Quarto 1.3.x vs 1.4.x`)
 - Institutional requirements (Emory thesis format)
 - Personal preferences (90/100 quality gate for this project)
@@ -67,7 +67,7 @@ When creating or modifying content, ask:
 **Purpose:** Machine-specific and user-specific learnings
 
 **What goes here:**
-- Machine setup: `[LEARN:latex] XeLaTeX on macOS requires TEXINPUTS=../Preambles`
+- Machine setup: `[LEARN:latex] XeLaTeX on macOS requires TEXINPUTS=../preambles`
 - Tool quirks: `[LEARN:quarto] Version 1.4.x has nested div bug, use 1.3.x`
 - Local paths: `[LEARN:files] Bibliography at ~/Dropbox/References/main.bib`
 - Personal workflow: `[LEARN:workflow] I prefer 90/100 for lecture slides, 80/100 for explorations`
@@ -136,7 +136,7 @@ When creating or modifying content, ask:
 **Bad (too specific):**
 ```markdown
 # Beamer Compilation Rule
-Always use XeLaTeX with TEXINPATHS=../Preambles for Emory slides.
+Always use XeLaTeX with TEXINPATHS=../preambles for Emory slides.
 ```
 
 **Good (framework-oriented):**
@@ -165,13 +165,13 @@ Examples:
 
 **Bad (prescriptive):**
 ```markdown
-Your bibliography MUST be named Bibliography_base.bib and live in root.
+Your bibliography MUST be named bibliography_base.bib and live in root.
 ```
 
 **Good (template with placeholders):**
 ```markdown
 Configure bibliography location in CLAUDE.md:
-[YOUR_BIB_FILE] (e.g., Bibliography_base.bib, refs.bib, ../library.bib)
+[YOUR_BIB_FILE] (e.g., bibliography_base.bib, refs.bib, ../library.bib)
 ```
 
 ---

@@ -14,7 +14,7 @@ Perform a thorough visual layout audit of a slide deck.
 1. **Read the slide file** specified in `$ARGUMENTS`
 
 2. **For Quarto (.qmd) files:**
-   - Render with `quarto render Quarto/$ARGUMENTS`
+   - Render with `quarto render quarto/$ARGUMENTS`
    - Open in browser to inspect each slide
 
 3. **For Beamer (.tex) files:**

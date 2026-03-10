@@ -22,7 +22,7 @@ explorations/
 │   ├── R/                  # Experimental code
 │   ├── scripts/            # Test scripts
 │   └── output/             # Results
-└── ARCHIVE/                # Completed or abandoned
+└── archive/                # Completed or abandoned
     ├── completed_[name]/   # Graduated to production
     └── abandoned_[name]/   # Documented why stopped
 ```

@@ -6,11 +6,11 @@ Calculates objective quality scores (0-100) based on defined rubrics.
 Enforces quality gates: 80 (commit), 90 (PR), 95 (excellence).
 
 Usage:
-    python scripts/quality_score.py Quarto/Lecture6_Topic.qmd
-    python scripts/quality_score.py Quarto/Lecture6_Topic.qmd --summary
-    python scripts/quality_score.py Quarto/*.qmd
-    python scripts/quality_score.py Slides/Lecture01_Topic.tex
-    python scripts/quality_score.py scripts/R/Lecture06_simulations.R
+    python scripts/quality_score.py quarto/Lecture6_Topic.qmd
+    python scripts/quality_score.py quarto/Lecture6_Topic.qmd --summary
+    python scripts/quality_score.py quarto/*.qmd
+    python scripts/quality_score.py slides/Lecture01_Topic.tex
+    python scripts/quality_score.py scripts/r/Lecture06_simulations.R
 """
 
 import sys
@@ -412,7 +412,7 @@ class QualityScorer:
             self.score -= 20
 
         # Check broken citations (LaTeX-style \cite patterns)
-        bib_file = self.filepath.parent.parent / 'Bibliography_base.bib'
+        bib_file = self.filepath.parent.parent / 'bibliography_base.bib'
         broken_citations = IssueDetector.check_broken_citations(content, bib_file)
 
         # Also check Quarto-style @key citations
@@ -423,7 +423,7 @@ class QualityScorer:
             self.issues['critical'].append({
                 'type': 'broken_citation',
                 'description': f'Citation key not in bibliography: {key}',
-                'details': 'Add to Bibliography_base.bib or fix key',
+                'details': 'Add to bibliography_base.bib or fix key',
                 'points': 15
             })
             self.score -= 15
@@ -509,16 +509,16 @@ class QualityScorer:
             return self._generate_report()
 
         # Check for undefined/broken citations (\cite, \citep, \citet patterns)
-        bib_file = self.filepath.parent.parent / 'Bibliography_base.bib'
+        bib_file = self.filepath.parent.parent / 'bibliography_base.bib'
         if not bib_file.exists():
             # Also check same directory
-            bib_file = self.filepath.parent / 'Bibliography_base.bib'
+            bib_file = self.filepath.parent / 'bibliography_base.bib'
         broken_citations = IssueDetector.check_broken_citations(content, bib_file)
         for key in broken_citations:
             self.issues['critical'].append({
                 'type': 'undefined_citation',
                 'description': f'Citation key not in bibliography: {key}',
-                'details': 'Add to Bibliography_base.bib or fix key',
+                'details': 'Add to bibliography_base.bib or fix key',
                 'points': 15
             })
             self.score -= 15
@@ -677,22 +677,22 @@ def main():
         epilog="""
 Examples:
   # Score a single Quarto file
-  python scripts/quality_score.py Quarto/Lecture6_Topic.qmd
+  python scripts/quality_score.py quarto/Lecture6_Topic.qmd
 
   # Score multiple files
-  python scripts/quality_score.py Quarto/*.qmd
+  python scripts/quality_score.py quarto/*.qmd
 
   # Score a Beamer/LaTeX file
-  python scripts/quality_score.py Slides/Lecture01_Topic.tex
+  python scripts/quality_score.py slides/Lecture01_Topic.tex
 
   # Score an R script
-  python scripts/quality_score.py scripts/R/Lecture06_simulations.R
+  python scripts/quality_score.py scripts/r/Lecture06_simulations.R
 
   # Summary only (no detailed issues)
-  python scripts/quality_score.py Quarto/Lecture6.qmd --summary
+  python scripts/quality_score.py quarto/Lecture6.qmd --summary
 
   # Verbose output (include minor issues)
-  python scripts/quality_score.py Quarto/Lecture6.qmd --verbose
+  python scripts/quality_score.py quarto/Lecture6.qmd --verbose
 
 Quality Thresholds:
   80/100 = Commit threshold (blocks if below)

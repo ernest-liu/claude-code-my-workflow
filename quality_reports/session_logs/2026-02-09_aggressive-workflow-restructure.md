@@ -76,11 +76,11 @@ Launched 4 verification agents in parallel to cross-check every claim in CLAUDE.
 
 **README.md:** 6 rules had simplified/inaccurate "Triggers On" values:
 - `verification-protocol`: said `.R` but actual is `docs/` — fixed
-- `single-source-of-truth`: omitted `Figures/` — fixed
+- `single-source-of-truth`: omitted `figures/` — fixed
 - `pdf-processing`: said `supporting_papers/` but actual is `master_supporting_docs/` — fixed
 - `proofreading-protocol`: omitted `quality_reports/` — fixed
-- `replication-protocol`: said `Figures/` but actual is only `Figures/*.R` — fixed
-- `orchestrator-research`: omitted `Figures/*.R` (acceptable simplification, kept as-is)
+- `replication-protocol`: said `figures/` but actual is only `figures/*.R` — fixed
+- `orchestrator-research`: omitted `figures/*.R` (acceptable simplification, kept as-is)
 
 **Guide:** Same 3 trigger path issues as README (verification-protocol, pdf-processing, proofreading-protocol) — all fixed in appendix table and inline code block.
 

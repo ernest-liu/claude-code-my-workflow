@@ -159,7 +159,7 @@ It covers:
 | Enhanced session logging | Structured tables for changes, decisions, verification |
 | Merge-only reporting | Quality reports at merge time only |
 | Math line-length exception | Long lines acceptable for documented formulas |
-| Workflow quick reference | One-page cheat sheet at `.claude/WORKFLOW_QUICK_REF.md` |
+| Workflow quick reference | One-page cheat sheet at `.claude/workflow_quick_ref.md` |
 
 ### Rules (`.claude/rules/`)
 
@@ -179,7 +179,7 @@ Rules use path-scoped loading: **always-on** rules load every session (~100 line
 | Rule | Triggers On | What It Enforces |
 |------|------------|-----------------|
 | `verification-protocol` | `.tex`, `.qmd`, `docs/` | Task completion checklist |
-| `single-source-of-truth` | `Figures/`, `.tex`, `.qmd` | No content duplication; Beamer is authoritative |
+| `single-source-of-truth` | `figures/`, `.tex`, `.qmd` | No content duplication; Beamer is authoritative |
 | `quality-gates` | `.tex`, `.qmd`, `*.R` | 80/90/95 scoring + tolerance thresholds |
 | `r-code-conventions` | `*.R` | R coding standards + math line-length exception |
 | `tikz-visual-quality` | `.tex` | TikZ diagram visual standards |
@@ -231,7 +231,7 @@ Not all tools are needed — install only what your project uses. Claude Code is
 3. **Update the color palette** in your Quarto theme SCSS file — change the color variables at the top
 4. **Add field-specific R pitfalls** to `.claude/rules/r-code-conventions.md`
 5. **Fill in the lecture mapping** in `.claude/rules/beamer-quarto-sync.md`
-6. **Customize the workflow quick reference** (`.claude/WORKFLOW_QUICK_REF.md`) with your non-negotiables and preferences
+6. **Customize the workflow quick reference** (`.claude/workflow_quick_ref.md`) with your non-negotiables and preferences
 7. **Set up the exploration folder** (`explorations/`) for experimental work
 
 ---

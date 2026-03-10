@@ -21,17 +21,30 @@
 
 ---
 
+## Writing Style
+
+<!-- CUSTOMIZE: Define your prose and LaTeX conventions so Claude
+     writes in your voice. Delete the placeholders and add yours. -->
+
+- [Prose tone, e.g., "Formal propositions followed by interpretive discussion"]
+- [Interpretation phrases, e.g., "Use 'Intuitively,...', 'This implies...'"]
+- [LaTeX conventions, e.g., "`\bm{}` for vectors/matrices, `\left( \right)` for delimiters"]
+- [Document format, e.g., "12pt font, 1in margins, onehalfspacing"]
+- [Edit display convention, e.g., "Highlight changes with **bold** insertions and ~~strikethrough~~ deletions"]
+
+---
+
 ## Folder Structure
 
 ```
 [YOUR-PROJECT]/
 ├── CLAUDE.MD                    # This file
 ├── .claude/                     # Rules, skills, agents, hooks
-├── Bibliography_base.bib        # Centralized bibliography
-├── Figures/                     # Figures and images
-├── Preambles/header.tex         # LaTeX headers
-├── Slides/                      # Beamer .tex files
-├── Quarto/                      # RevealJS .qmd files + theme
+├── bibliography_base.bib        # Centralized bibliography
+├── figures/                     # Figures and images
+├── preambles/header.tex         # LaTeX headers
+├── slides/                      # Beamer .tex files
+├── quarto/                      # RevealJS .qmd files + theme
 ├── docs/                        # GitHub Pages (auto-generated)
 ├── scripts/                     # Utility scripts + R code
 ├── quality_reports/             # Plans, session logs, merge reports
@@ -46,16 +59,16 @@
 
 ```bash
 # LaTeX (3-pass, XeLaTeX only)
-cd Slides && TEXINPUTS=../Preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
+cd slides && TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
 BIBINPUTS=..:$BIBINPUTS bibtex file
-TEXINPUTS=../Preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
-TEXINPUTS=../Preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
+TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
+TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
 
 # Deploy Quarto to GitHub Pages
 ./scripts/sync_to_docs.sh LectureN
 
 # Quality score
-python scripts/quality_score.py Quarto/file.qmd
+python scripts/quality_score.py quarto/file.qmd
 ```
 
 ---
@@ -134,3 +147,15 @@ python scripts/quality_score.py Quarto/file.qmd
 |---------|--------|--------|-------------|
 | 1: [Topic] | `Lecture01_Topic.tex` | `Lecture1_Topic.qmd` | [Brief description] |
 | 2: [Topic] | `Lecture02_Topic.tex` | -- | [Brief description] |
+
+---
+
+## Key Files
+
+<!-- CUSTOMIZE: List the most important files in your project so Claude
+     knows where to find things. Delete the placeholders and add yours. -->
+
+| File | Description |
+|------|-------------|
+| `[path/to/main-file]` | [Main document or entry point] |
+| `[path/to/data-or-code]` | [Key script, dataset, or computation] |

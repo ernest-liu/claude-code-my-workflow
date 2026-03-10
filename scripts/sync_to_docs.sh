@@ -10,7 +10,7 @@
 set -e
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-QUARTO_DIR="$REPO_ROOT/Quarto"
+QUARTO_DIR="$REPO_ROOT/quarto"
 DOCS_DIR="$REPO_ROOT/docs"
 
 echo "=== Syncing Quarto slides to docs/ ==="
@@ -61,7 +61,7 @@ done
 
 # 3. Sync Beamer PDFs to docs/slides/
 echo "Syncing Beamer PDFs..."
-for pdf in "$REPO_ROOT/Slides/"*.pdf; do
+for pdf in "$REPO_ROOT/slides/"*.pdf; do
     if [ -f "$pdf" ]; then
         echo "  Copying $(basename "$pdf")..."
         cp "$pdf" "$DOCS_DIR/slides/"
@@ -71,20 +71,20 @@ done
 # 4. Sync R scripts to docs/files/code/
 echo "Syncing R scripts..."
 mkdir -p "$DOCS_DIR/files/code"
-for rscript in "$REPO_ROOT/scripts/R/"*.R; do
+for rscript in "$REPO_ROOT/scripts/r/"*.R; do
     if [ -f "$rscript" ]; then
         echo "  Copying $(basename "$rscript")..."
         cp "$rscript" "$DOCS_DIR/files/code/"
     fi
 done
 
-# 5. Sync Figures directory (using rsync for efficiency)
-echo "Syncing Figures/..."
+# 5. Sync figures directory (using rsync for efficiency)
+echo "Syncing figures/..."
 if command -v rsync &> /dev/null; then
-    rsync -av --delete "$REPO_ROOT/Figures/" "$DOCS_DIR/Figures/"
+    rsync -av --delete "$REPO_ROOT/figures/" "$DOCS_DIR/figures/"
 else
-    rm -rf "$DOCS_DIR/Figures"
-    cp -r "$REPO_ROOT/Figures" "$DOCS_DIR/Figures"
+    rm -rf "$DOCS_DIR/figures"
+    cp -r "$REPO_ROOT/figures" "$DOCS_DIR/figures"
 fi
 
 echo ""
