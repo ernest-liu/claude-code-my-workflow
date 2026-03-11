@@ -14,33 +14,33 @@ Run a comprehensive multi-dimensional review of lecture slides. Multiple agents 
 
 ### 1. Identify the File
 
-Parse `$ARGUMENTS` for the filename. Resolve path in `quarto/` or `slides/`.
+Parse `$ARGUMENTS` for the filename. Resolve path in `slides/`.
 
 ### 2. Run Review Agents in Parallel
 
 **Agent 1: Visual Audit** (slide-auditor)
 - Overflow, font consistency, box fatigue, spacing, images
-- Save: `quality_reports/[FILE]_visual_audit.md`
+- Save report to disk (e.g., `[FILE]_visual_audit.md`)
 
 **Agent 2: Pedagogical Review** (pedagogy-reviewer)
 - 13 pedagogical patterns, narrative, pacing, notation
-- Save: `quality_reports/[FILE]_pedagogy_report.md`
+- Save report to disk (e.g., `[FILE]_pedagogy_report.md`)
 
 **Agent 3: Proofreading** (proofreader)
 - Grammar, typos, consistency, academic quality, citations
-- Save: `quality_reports/[FILE]_report.md`
+- Save report to disk (e.g., `[FILE]_report.md`)
 
 **Agent 4: TikZ Review** (only if file contains TikZ)
 - Label overlaps, geometric accuracy, visual semantics
-- Save: `quality_reports/[FILE]_tikz_review.md`
+- Save report to disk (e.g., `[FILE]_tikz_review.md`)
 
 **Agent 5: Content Parity** (only for .qmd files with corresponding .tex)
 - Frame count comparison, environment parity, content drift
-- Save: `quality_reports/[FILE]_parity_report.md`
+- Save report to disk (e.g., `[FILE]_parity_report.md`)
 
 **Agent 6: Substance Review** (optional, for .tex files)
 - Domain correctness via domain-reviewer protocol
-- Save: `quality_reports/[FILE]_substance_review.md`
+- Save report to disk (e.g., `[FILE]_substance_review.md`)
 
 ### 3. Synthesize Combined Summary
 

@@ -1,37 +1,26 @@
----
-paths:
-  - "explorations/**"
----
-
 # Exploration Folder Protocol
 
-**All experimental work goes into `explorations/` first.** Never directly into production folders.
+**All experimental work goes into a dedicated workspace first.** Never directly into production folders.
 
 ## Folder Structure
 
 ```
-explorations/
-├── ACTIVE_PROJECTS.md
-├── [project]/
-│   ├── README.md          # Goal, status, findings
-│   ├── R/                 # Code (use _v1, _v2 for iterations)
-│   ├── scripts/           # Test scripts
-│   ├── output/            # Results
-│   └── SESSION_LOG.md     # Progress notes
-└── ARCHIVE/
-    ├── completed_[project]/
-    └── abandoned_[project]/
+[exploration-workspace]/
+├── README.md          # Goal, status, findings
+├── R/                 # Code (use _v1, _v2 for iterations)
+├── output/            # Results
+└── SESSION_LOG.md     # Progress notes
 ```
 
 ## Lifecycle
 
-1. **Create** -- `mkdir -p explorations/[name]/{R,scripts,output}` + README from `templates/exploration-readme.md`
-2. **Develop** -- work entirely within the exploration folder
+1. **Create** -- set up an exploration workspace with README
+2. **Develop** -- work entirely within the exploration workspace
 3. **Decide:**
 
-   - **Graduate to production** -- copy to `R/`, `scripts/`; requires quality >= 80, tests pass, code clear. Move to `ARCHIVE/completed_[project]/`
+   - **Graduate to production** -- copy to main project folders; requires quality >= 80, tests pass, code clear
    - **Keep exploring** -- document next steps in README
-   - **Abandon** -- move to `ARCHIVE/abandoned_[project]/` with explanation (use `templates/archive-readme.md`)
+   - **Abandon** -- archive with explanation
 
 ## Graduate Checklist
 

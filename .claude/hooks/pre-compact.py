@@ -43,12 +43,24 @@ def get_session_dir() -> Path:
 
 
 def find_active_plan(project_dir: str) -> dict | None:
-    """Find the most recent non-completed plan."""
-    plans_dir = Path(project_dir) / "quality_reports" / "plans"
-    if not plans_dir.exists():
+    """Find the most recent non-completed plan.
+
+    Searches multiple candidate directories for plan files.
+    """
+    candidate_dirs = [
+        Path(project_dir) / "plans",
+        Path(project_dir) / "output" / "plans",
+    ]
+
+    all_plan_files: list[Path] = []
+    for plans_dir in candidate_dirs:
+        if plans_dir.exists():
+            all_plan_files.extend(plans_dir.glob("*.md"))
+
+    if not all_plan_files:
         return None
 
-    plan_files = sorted(plans_dir.glob("*.md"), key=lambda f: f.stat().st_mtime, reverse=True)
+    plan_files = sorted(all_plan_files, key=lambda f: f.stat().st_mtime, reverse=True)
 
     for plan_file in plan_files[:3]:  # Check last 3 plans
         content = plan_file.read_text()
@@ -82,15 +94,24 @@ def find_active_plan(project_dir: str) -> dict | None:
 
 
 def extract_recent_decisions(project_dir: str, limit: int = 3) -> list[str]:
-    """Extract recent decisions from the session log."""
-    logs_dir = Path(project_dir) / "quality_reports" / "session_logs"
-    if not logs_dir.exists():
+    """Extract recent decisions from the session log.
+
+    Searches multiple candidate directories for session logs.
+    """
+    candidate_dirs = [
+        Path(project_dir) / "session_logs",
+        Path(project_dir) / "output" / "session_logs",
+    ]
+
+    all_log_files: list[Path] = []
+    for logs_dir in candidate_dirs:
+        if logs_dir.exists():
+            all_log_files.extend(logs_dir.glob("*.md"))
+
+    if not all_log_files:
         return []
 
-    log_files = sorted(logs_dir.glob("*.md"), key=lambda f: f.stat().st_mtime, reverse=True)
-    if not log_files:
-        return []
-
+    log_files = sorted(all_log_files, key=lambda f: f.stat().st_mtime, reverse=True)
     content = log_files[0].read_text()
     decisions = []
 
@@ -126,20 +147,30 @@ def save_state(state: dict) -> None:
 
 
 def append_to_session_log(project_dir: str, trigger: str) -> None:
-    """Append compaction note to session log."""
-    logs_dir = Path(project_dir) / "quality_reports" / "session_logs"
-    if not logs_dir.exists():
+    """Append compaction note to session log.
+
+    Searches multiple candidate directories for session logs.
+    """
+    candidate_dirs = [
+        Path(project_dir) / "session_logs",
+        Path(project_dir) / "output" / "session_logs",
+    ]
+
+    all_log_files: list[Path] = []
+    for logs_dir in candidate_dirs:
+        if logs_dir.exists():
+            all_log_files.extend(logs_dir.glob("*.md"))
+
+    if not all_log_files:
         return
 
-    log_files = sorted(logs_dir.glob("*.md"), key=lambda f: f.stat().st_mtime, reverse=True)
-    if not log_files:
-        return
+    log_files = sorted(all_log_files, key=lambda f: f.stat().st_mtime, reverse=True)
 
     try:
         with open(log_files[0], "a") as f:
             f.write(f"\n\n---\n")
             f.write(f"**Context compaction ({trigger}) at {datetime.now().strftime('%H:%M')}**\n")
-            f.write(f"Check git log and quality_reports/plans/ for current state.\n")
+            f.write(f"Check git log and plan files on disk for current state.\n")
     except IOError:
         pass
 

@@ -8,13 +8,13 @@
 
 ```
 Your instruction
-    ↓
-[PLAN] (if multi-file or unclear) → Show plan → Your approval
-    ↓
+    |
+[PLAN] (if multi-file or unclear) -> Show plan -> Your approval
+    |
 [EXECUTE] Implement, verify, done
-    ↓
+    |
 [REPORT] Summary + what's ready
-    ↓
+    |
 Repeat
 ```
 
@@ -71,16 +71,6 @@ Repeat
 
 ---
 
-## Exploration Mode
-
-For experimental work, use the **Fast-Track** workflow:
-- Work in `explorations/` folder
-- 60/100 quality threshold (vs. 80/100 for production)
-- No plan needed — just a research value check (2 min)
-- See `.claude/rules/exploration-fast-track.md`
-
----
-
 ## Next Step
 
-You provide task → I plan (if needed) → Your approval → Execute → Done.
+You provide task -> I plan (if needed) -> Your approval -> Execute -> Done.

@@ -36,7 +36,7 @@ When creating or modifying content, ask:
 - Rules that adapt to user context (path-scoped rules)
 
 **SPECIFIC (keep local or gitignore):**
-- Machine-specific paths (`TEXINPUTS=../preambles` on macOS)
+- Machine-specific paths (e.g., custom `TEXINPUTS` on macOS)
 - Tool versions (`Quarto 1.3.x vs 1.4.x`)
 - Institutional requirements (Emory thesis format)
 - Personal preferences (90/100 quality gate for this project)
@@ -67,7 +67,7 @@ When creating or modifying content, ask:
 **Purpose:** Machine-specific and user-specific learnings
 
 **What goes here:**
-- Machine setup: `[LEARN:latex] XeLaTeX on macOS requires TEXINPUTS=../preambles`
+- Machine setup: `[LEARN:latex] XeLaTeX on macOS requires specific TEXINPUTS`
 - Tool quirks: `[LEARN:quarto] Version 1.4.x has nested div bug, use 1.3.x`
 - Local paths: `[LEARN:files] Bibliography at ~/Dropbox/References/main.bib`
 - Personal workflow: `[LEARN:workflow] I prefer 90/100 for lecture slides, 80/100 for explorations`
@@ -103,7 +103,7 @@ When creating or modifying content, ask:
 
 ### Plan-First Workflow
 ✅ Do: Enter plan mode for non-trivial tasks (>3 files, >1 hour, multi-step)
-✅ Do: Save plans to `quality_reports/plans/YYYY-MM-DD_description.md`
+✅ Do: Save plans to disk
 ❌ Don't: Skip planning for "quick fixes" that turn into multi-hour tasks
 
 ### Spec-Then-Plan
@@ -136,13 +136,13 @@ When creating or modifying content, ask:
 **Bad (too specific):**
 ```markdown
 # Beamer Compilation Rule
-Always use XeLaTeX with TEXINPATHS=../preambles for Emory slides.
+Always use XeLaTeX with specific TEXINPATHS for Emory slides.
 ```
 
 **Good (framework-oriented):**
 ```markdown
 # LaTeX Compilation Rule
-Use project-specific TEXINPATHS if preambles are in separate directory.
+Use project-specific TEXINPATHS if needed.
 Configure in CLAUDE.md for your setup.
 ```
 
@@ -222,13 +222,13 @@ As this repository evolves, meta-governance may need updates.
 |--------------|----------------|---------------|----------------------|
 | Workflow patterns (generic) | ✅ Yes | MEMORY.md | ✅ Yes (via git) |
 | Machine-specific setup | ❌ No | .claude/state/personal-memory.md | ❌ No (gitignored) |
-| Templates (generic) | ✅ Yes | templates/ | ✅ Yes |
+| Templates (generic) | ✅ Yes | project templates | ✅ Yes |
 | Skills (generic) | ✅ Yes | .claude/skills/ | ✅ Yes |
 | Rules (path-scoped, generic) | ✅ Yes | .claude/rules/ | ✅ Yes |
 | Agents (generic) | ✅ Yes | .claude/agents/ | ✅ Yes |
 | Hooks (generic behavior) | ✅ Yes | .claude/hooks/ | ✅ Yes |
-| Session logs | ✅ Yes | quality_reports/session_logs/ | ✅ Yes |
-| Plans | ✅ Yes | quality_reports/plans/ | ✅ Yes |
+| Session logs | ✅ Yes | logged to disk | ✅ Yes |
+| Plans | ✅ Yes | saved to disk | ✅ Yes |
 | Local settings | ❌ No | .claude/settings.local.json | ❌ No (gitignored) |
 | Session state | ❌ No | .claude/state/ | ❌ No (gitignored) |
 | Build artifacts | ❌ No | .aux, .log, .synctex.gz | ❌ No (gitignored) |

@@ -1,7 +1,6 @@
 # Session Logging
 
-**Location:** `quality_reports/session_logs/YYYY-MM-DD_description.md`
-**Template:** `templates/session-log.md`
+**Log sessions to disk** (e.g., `YYYY-MM-DD_description.md`).
 
 ## Three Triggers (all proactive)
 
@@ -19,5 +18,4 @@ When wrapping up: high-level summary, quality scores, open questions, blockers.
 
 ## Quality Reports
 
-Generated **only at merge time** -- not at every commit or PR.
-Save to `quality_reports/merges/YYYY-MM-DD_[branch-name].md` using `templates/quality-report.md`.
+Generated **only at merge time** -- not at every commit or PR. Save to disk.

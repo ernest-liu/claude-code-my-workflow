@@ -1,9 +1,7 @@
 # CLAUDE.MD -- Academic Project Development with Claude Code
 
 <!-- HOW TO USE: Replace [BRACKETED PLACEHOLDERS] with your project info.
-     Customize Beamer environments and CSS classes for your theme.
-     Keep this file under ~150 lines — Claude loads it every session.
-     See the guide at docs/workflow-guide.html for full documentation. -->
+     Keep this file under ~150 lines — Claude loads it every session. -->
 
 **Project:** [YOUR PROJECT NAME]
 **Institution:** [YOUR INSTITUTION]
@@ -13,9 +11,8 @@
 
 ## Core Principles
 
-- **Plan first** -- enter plan mode before non-trivial tasks; save plans to `quality_reports/plans/`
+- **Plan first** -- enter plan mode before non-trivial tasks
 - **Verify after** -- compile/render and confirm output at the end of every task
-- **Single source of truth** -- Beamer `.tex` is authoritative; Quarto `.qmd` derives from it
 - **Quality gates** -- nothing ships below 80/100
 - **[LEARN] tags** -- when corrected, save `[LEARN:category] wrong → right` to MEMORY.md
 
@@ -38,19 +35,13 @@
 
 ```
 [YOUR-PROJECT]/
-├── CLAUDE.MD                    # This file
+├── CLAUDE.md                    # This file
 ├── .claude/                     # Rules, skills, agents, hooks
 ├── bibliography_base.bib        # Centralized bibliography
 ├── figures/                     # Figures and images
-├── preambles/header.tex         # LaTeX headers
-├── slides/                      # Beamer .tex files
-├── quarto/                      # RevealJS .qmd files + theme
-├── docs/                        # GitHub Pages (auto-generated)
-├── scripts/                     # Utility scripts + R code
-├── quality_reports/             # Plans, session logs, merge reports
-├── explorations/                # Research sandbox (see rules)
-├── templates/                   # Session log, quality report templates
-└── master_supporting_docs/      # Papers and existing slides
+├── slides/                      # Source .tex / .md files
+├── output/                      # Compiled PDFs and generated artifacts
+└── raw/                         # Reference papers, data, supporting materials
 ```
 
 ---
@@ -59,16 +50,10 @@
 
 ```bash
 # LaTeX (3-pass, XeLaTeX only)
-cd slides && TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
+cd slides && xelatex -interaction=nonstopmode file.tex
 BIBINPUTS=..:$BIBINPUTS bibtex file
-TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
-TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
-
-# Deploy Quarto to GitHub Pages
-./scripts/sync_to_docs.sh LectureN
-
-# Quality score
-python scripts/quality_score.py quarto/file.qmd
+xelatex -interaction=nonstopmode file.tex
+xelatex -interaction=nonstopmode file.tex
 ```
 
 ---
@@ -88,13 +73,13 @@ python scripts/quality_score.py quarto/file.qmd
 | Command | What It Does |
 |---------|-------------|
 | `/compile-latex [file]` | 3-pass XeLaTeX + bibtex |
-| `/deploy [LectureN]` | Render Quarto + sync to docs/ |
+| `/deploy [LectureN]` | Render + deploy output |
 | `/extract-tikz [LectureN]` | TikZ → PDF → SVG |
 | `/proofread [file]` | Grammar/typo/overflow review |
 | `/visual-audit [file]` | Slide layout audit |
 | `/pedagogy-review [file]` | Narrative, notation, pacing review |
 | `/review-r [file]` | R code quality review |
-| `/qa-quarto [LectureN]` | Adversarial Quarto vs Beamer QA |
+| `/qa-quarto [LectureN]` | Adversarial QA review |
 | `/slide-excellence [file]` | Combined multi-agent review |
 | `/translate-to-quarto [file]` | Beamer → Quarto translation |
 | `/validate-bib` | Cross-reference citations |
@@ -113,8 +98,7 @@ python scripts/quality_score.py quarto/file.qmd
 ---
 
 <!-- CUSTOMIZE: Replace the example entries below with your own
-     Beamer environments and Quarto CSS classes. These are examples
-     from the original project — delete them and add yours. -->
+     Beamer environments and CSS classes. Delete and add yours. -->
 
 ## Beamer Custom Environments
 
@@ -122,31 +106,20 @@ python scripts/quality_score.py quarto/file.qmd
 |-------------------|---------------|----------------|
 | `[your-env]`      | [Description] | [When to use]  |
 
-<!-- Example entries (delete and replace with yours):
-| `keybox` | Gold background box | Key points |
-| `highlightbox` | Gold left-accent box | Highlights |
-| `definitionbox[Title]` | Blue-bordered titled box | Formal definitions |
--->
-
 ## Quarto CSS Classes
 
 | Class              | Effect        | Use Case       |
 |--------------------|---------------|----------------|
 | `[.your-class]`    | [Description] | [When to use]  |
 
-<!-- Example entries (delete and replace with yours):
-| `.smaller` | 85% font | Dense content slides |
-| `.positive` | Green bold | Good annotations |
--->
-
 ---
 
 ## Current Project State
 
-| Lecture | Beamer | Quarto | Key Content |
+| Lecture | Source | Output | Key Content |
 |---------|--------|--------|-------------|
-| 1: [Topic] | `Lecture01_Topic.tex` | `Lecture1_Topic.qmd` | [Brief description] |
-| 2: [Topic] | `Lecture02_Topic.tex` | -- | [Brief description] |
+| 1: [Topic] | `slides/Lecture01.tex` | `output/Lecture01.pdf` | [Brief description] |
+| 2: [Topic] | `slides/Lecture02.tex` | -- | [Brief description] |
 
 ---
 

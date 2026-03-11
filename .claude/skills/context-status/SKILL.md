@@ -34,13 +34,15 @@ cat ~/.claude/sessions/*/context-monitor-cache.json 2>/dev/null | head -20
 ### Step 2: Find Active Plan
 
 ```bash
-ls -lt quality_reports/plans/*.md 2>/dev/null | head -3
+# Check for plan files saved to disk (location varies by project)
+ls -lt **/plans/*.md 2>/dev/null | head -3
 ```
 
 ### Step 3: Find Session Log
 
 ```bash
-ls -lt quality_reports/session_logs/*.md 2>/dev/null | head -1
+# Check for session logs saved to disk (location varies by project)
+ls -lt **/session_logs/*.md 2>/dev/null | head -1
 ```
 
 ### Step 4: Report Status
@@ -48,23 +50,23 @@ ls -lt quality_reports/session_logs/*.md 2>/dev/null | head -1
 Format the output:
 
 ```
-📊 Session Status
+Session Status
 ─────────────────────────────────
 Context Usage:  ~XX% (estimated)
 Auto-compact:   [approaching | not imminent]
 
-📋 Active Plan
-File:   quality_reports/plans/YYYY-MM-DD_description.md
+Active Plan
+File:   [plan file path]
 Status: [draft | approved | in_progress | completed]
 Task:   [current unchecked task or "none"]
 
-📝 Session Log
-File:   quality_reports/session_logs/YYYY-MM-DD_description.md
+Session Log
+File:   [session log file path]
 
-✓ Preservation Check
-  • Pre-compact hook: [configured | missing]
-  • Post-compact restore: [configured | missing]
-  • Session state will be saved before compaction
+Preservation Check
+  - Pre-compact hook: [configured | missing]
+  - Post-compact restore: [configured | missing]
+  - Session state will be saved before compaction
 ```
 
 ## Notes

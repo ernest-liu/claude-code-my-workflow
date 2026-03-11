@@ -39,7 +39,7 @@ Phase 0: Pre-flight → Phase 1: Critic audit → Phase 2: Fixer → Phase 3: Re
 
 ## Phase 1: Initial Audit
 
-Launch the `quarto-critic` agent to compare Beamer vs Quarto comprehensively. Report saved to `quality_reports/[Lecture]_qa_critic_round1.md`.
+Launch the `quarto-critic` agent to compare Beamer vs Quarto comprehensively. Save report to disk (e.g., `[Lecture]_qa_critic_round1.md`).
 
 ## Phase 2: Fix Cycle
 
@@ -55,4 +55,4 @@ Max 5 fix rounds. After that, escalate to user with remaining issues.
 
 ## Final Report
 
-Save to `quality_reports/[Lecture]_qa_final.md` with hard gate status, iteration summary, and remaining issues.
+Save report to disk (e.g., `[Lecture]_qa_final.md`) with hard gate status, iteration summary, and remaining issues.

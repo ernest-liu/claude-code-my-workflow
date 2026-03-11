@@ -60,6 +60,6 @@ For each issue found, provide:
 
 ## Save the Report
 
-Save to `quality_reports/[FILENAME_WITHOUT_EXT]_report.md`
+Save to disk (e.g., `[FILENAME_WITHOUT_EXT]_report.md`).
 
-For `.qmd` files, append `_qmd` to the name: `quality_reports/[FILENAME]_qmd_report.md`
+For `.qmd` files, append `_qmd` to the name: `[FILENAME]_qmd_report.md`

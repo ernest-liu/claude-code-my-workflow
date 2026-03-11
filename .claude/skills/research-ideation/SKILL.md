@@ -15,7 +15,7 @@ Generate structured research questions, testable hypotheses, and empirical strat
 
 ## Steps
 
-1. **Understand the input.** Read `$ARGUMENTS` and any referenced files. Check `master_supporting_docs/` for related papers. Check `.claude/rules/` for domain conventions.
+1. **Understand the input.** Read `$ARGUMENTS` and any referenced files. Check `raw/` for related papers and supporting materials. Check `.claude/rules/` for domain conventions.
 
 2. **Generate 3-5 research questions** ordered from descriptive to causal:
    - **Descriptive:** What are the patterns? (e.g., "How has X evolved over time?")
@@ -34,7 +34,7 @@ Generate structured research questions, testable hypotheses, and empirical strat
 
 4. **Rank the questions** by feasibility and contribution.
 
-5. **Save the output** to `quality_reports/research_ideation_[sanitized_topic].md`
+5. **Save the output** to disk (e.g., `research_ideation_[sanitized_topic].md`)
 
 ---
 

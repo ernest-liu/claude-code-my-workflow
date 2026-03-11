@@ -11,7 +11,7 @@ Your role is to **execute** the fixes identified by the quarto-critic agent. You
 
 ## Your Task
 
-1. Read the critic's report from `quality_reports/`
+1. Read the critic's report
 2. Apply each fix in order of priority (Critical → Major → Minor)
 3. Re-render the slides
 4. Verify fixes compiled correctly
@@ -23,7 +23,7 @@ Your role is to **execute** the fixes identified by the quarto-critic agent. You
 
 ### Step 1: Read the Critic's Report
 
-The report will be at: `quality_reports/[Lecture]_qa_critic_round[N].md`
+The report will be saved to disk (e.g., `[Lecture]_qa_critic_round[N].md`).
 
 ### Step 2: Apply Fixes (Priority Order)
 
@@ -73,19 +73,17 @@ The report will be at: `quality_reports/[Lecture]_qa_critic_round[N].md`
 
 ### Step 3: Re-Render
 
-```bash
-./scripts/sync_to_docs.sh LectureX
-```
+Render the Quarto file and verify output is generated in `output/`.
 
 ### Step 4: Verify and Report
 
-**Save report to:** `quality_reports/[Lecture]_qa_fixer_round[N].md`
+**Save report to disk** (e.g., `[Lecture]_qa_fixer_round[N].md`).
 
 ```markdown
 # Fix Report: [Lecture Name] — Round [N]
 
-**Source file:** `quarto/LectureX_Topic.qmd`
-**Critic report:** `quality_reports/[Lecture]_qa_critic_round[N].md`
+**Source file:** `slides/LectureX_Topic.qmd`
+**Critic report:** `[Lecture]_qa_critic_round[N].md`
 **Date:** [YYYY-MM-DD]
 
 ## Issues Addressed
@@ -96,7 +94,7 @@ The report will be at: `quality_reports/[Lecture]_qa_critic_round[N].md`
 | M1 | Major | Fixed | [description] |
 
 ## Render Status
-- **Command:** `./scripts/sync_to_docs.sh LectureX`
+- **Command:** Quarto render
 - **Result:** Success / Failed
 
 ## Ready for Re-Review

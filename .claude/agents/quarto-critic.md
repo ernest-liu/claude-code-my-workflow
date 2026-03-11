@@ -98,13 +98,13 @@ If ANY of these fail, the verdict is **REJECTED**:
 
 ## Report Format
 
-**Save report to:** `quality_reports/[Lecture]_qa_critic_round[N].md`
+**Save report to disk** (e.g., `[Lecture]_qa_critic_round[N].md`).
 
 ```markdown
 # Quarto vs Beamer Audit: [Lecture Name]
 
 **Beamer source:** `slides/LectureXX_Topic.tex` ([N] pages)
-**Quarto source:** `quarto/LectureX_Topic.qmd` ([M] slides)
+**Quarto source:** `slides/LectureX_Topic.qmd` ([M] slides)
 **Round:** [N]
 **Date:** [YYYY-MM-DD]
 

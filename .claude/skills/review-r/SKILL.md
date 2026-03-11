@@ -14,12 +14,12 @@ Run the comprehensive R code review protocol.
 1. **Identify scripts to review:**
    - If `$ARGUMENTS` is a specific `.R` filename: review that file only
    - If `$ARGUMENTS` is `LectureN`: review all R scripts matching that lecture
-   - If `$ARGUMENTS` is `all`: review all R scripts in `scripts/r/` and `figures/*/`
+   - If `$ARGUMENTS` is `all`: review all R scripts in the project (search for `*.R` files)
 
 2. **For each script, launch the `r-reviewer` agent** with instructions to:
    - Follow the full protocol in the agent instructions
    - Read `.claude/rules/r-code-conventions.md` for current standards
-   - Save report to `quality_reports/[script_name]_r_review.md`
+   - Save report to disk (e.g., `[script_name]_r_review.md`)
 
 3. **After all reviews complete**, present a summary:
    - Total issues found per script

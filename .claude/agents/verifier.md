@@ -16,7 +16,7 @@ For each modified file, verify that the appropriate output works correctly. Run 
 ### For `.tex` files (Beamer slides):
 ```bash
 cd slides
-TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode FILENAME.tex 2>&1 | tail -20
+xelatex -interaction=nonstopmode FILENAME.tex 2>&1 | tail -20
 ```
 - Check exit code (0 = success)
 - Grep for `Overfull \\hbox` warnings — count them
@@ -24,18 +24,16 @@ TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode FILENAME.tex 
 - Verify PDF was generated: `ls -la FILENAME.pdf`
 
 ### For `.qmd` files (Quarto slides):
-```bash
-./scripts/sync_to_docs.sh LectureN 2>&1 | tail -20
-```
+Render the Quarto file and check for errors.
 - Check exit code
-- Verify HTML output exists in `docs/slides/`
+- Verify HTML output exists in `output/`
 - Check for render warnings
 - **Plotly verification**: grep for `htmlwidget` count in rendered HTML
 - **Environment parity**: scan QMD for all `::: {.classname}` and verify each class exists in the theme SCSS
 
 ### For `.R` files (R scripts):
 ```bash
-Rscript scripts/r/FILENAME.R 2>&1 | tail -20
+Rscript FILENAME.R 2>&1 | tail -20
 ```
 - Check exit code
 - Verify output files (PDF, RDS) were created
@@ -53,9 +51,9 @@ Rscript scripts/r/FILENAME.R 2>&1 | tail -20
 3. Compare each block
 4. Report: `FRESH` or `STALE — N diagrams differ`
 
-### For deployment (`docs/` directory):
-- Check that `docs/slides/` contains the expected HTML files
-- Check that `docs/figures/` is synced with `figures/`
+### For deployment (`output/` directory):
+- Check that `output/` contains the expected output files
+- Check that `output/figures/` is synced with `figures/`
 - Verify image paths in HTML resolve to existing files
 
 ### For bibliography:
@@ -84,7 +82,7 @@ Rscript scripts/r/FILENAME.R 2>&1 | tail -20
 
 ## Important
 - Run verification commands from the correct working directory
-- Use `TEXINPUTS` and `BIBINPUTS` environment variables for LaTeX
+- Use `BIBINPUTS` environment variable for LaTeX if needed
 - Report ALL issues, even minor warnings
 - If a file fails to compile/render, capture and report the error message
 - TikZ freshness is a HARD GATE — stale SVGs should be flagged as failures

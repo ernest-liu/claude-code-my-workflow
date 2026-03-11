@@ -15,16 +15,16 @@ Compile a Beamer slide deck using XeLaTeX with full citation resolution.
 
 ```bash
 cd slides
-TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode $ARGUMENTS.tex
+xelatex -interaction=nonstopmode $ARGUMENTS.tex
 BIBINPUTS=..:$BIBINPUTS bibtex $ARGUMENTS
-TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode $ARGUMENTS.tex
-TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode $ARGUMENTS.tex
+xelatex -interaction=nonstopmode $ARGUMENTS.tex
+xelatex -interaction=nonstopmode $ARGUMENTS.tex
 ```
 
 **Alternative (latexmk):**
 ```bash
 cd slides
-TEXINPUTS=../preambles:$TEXINPUTS BIBINPUTS=..:$BIBINPUTS latexmk -xelatex -interaction=nonstopmode $ARGUMENTS.tex
+BIBINPUTS=..:$BIBINPUTS latexmk -xelatex -interaction=nonstopmode $ARGUMENTS.tex
 ```
 
 2. **Check for warnings:**
@@ -52,5 +52,5 @@ TEXINPUTS=../preambles:$TEXINPUTS BIBINPUTS=..:$BIBINPUTS latexmk -xelatex -inte
 
 ## Important
 - **Always use XeLaTeX**, never pdflatex
-- **TEXINPUTS** is required: your Beamer theme lives in `preambles/`
 - **BIBINPUTS** is required: your `.bib` file lives in the repo root
+- If your Beamer theme or preamble files are in a separate directory, add it to `TEXINPUTS`

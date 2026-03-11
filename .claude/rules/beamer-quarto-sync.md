@@ -1,7 +1,6 @@
 ---
 paths:
   - "slides/**/*.tex"
-  - "quarto/**/*.qmd"
 ---
 
 # Beamer → Quarto Auto-Sync Rule (MANDATORY)
@@ -17,8 +16,8 @@ When you modify a Beamer `.tex` file, you MUST also apply the equivalent change 
 <!-- Customize this table for your lectures -->
 | Lecture | Beamer | Quarto |
 |---------|--------|--------|
-| 1 | `slides/Lecture1_Topic.tex` | `quarto/Lecture1_Topic.qmd` |
-| 2 | `slides/Lecture2_Topic.tex` | `quarto/Lecture2_Topic.qmd` |
+| 1 | `slides/Lecture1_Topic.tex` | `slides/Lecture1_Topic.qmd` |
+| 2 | `slides/Lecture2_Topic.tex` | `slides/Lecture2_Topic.qmd` |
 <!-- Add rows as you create lectures -->
 
 ## Workflow (Every Time)
@@ -26,7 +25,7 @@ When you modify a Beamer `.tex` file, you MUST also apply the equivalent change 
 1. Apply fix to Beamer `.tex`
 2. **Immediately** apply equivalent fix to Quarto `.qmd`
 3. Compile Beamer (3-pass xelatex)
-4. Render Quarto (`./scripts/sync_to_docs.sh LectureN`)
+4. Render Quarto
 5. Only then report task complete
 
 ## LaTeX → Quarto Translation Reference

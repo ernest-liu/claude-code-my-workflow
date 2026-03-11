@@ -1,8 +1,8 @@
 ---
 paths:
   - "slides/**/*.tex"
-  - "quarto/**/*.qmd"
-  - "scripts/**/*.R"
+  - "slides/**/*.qmd"
+  - "figures/**/*.R"
 ---
 
 # Quality Gates & Scoring Rubrics
@@ -53,8 +53,7 @@ paths:
 
 ## Quality Reports
 
-Generated **only at merge time**. Use `templates/quality-report.md` for format.
-Save to `quality_reports/merges/YYYY-MM-DD_[branch-name].md`.
+Generated **only at merge time**. Save to disk.
 
 ## Tolerance Thresholds (Research)
 

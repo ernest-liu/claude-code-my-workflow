@@ -13,15 +13,14 @@ Perform a comprehensive pedagogical review.
 
 1. **Identify the file** specified in `$ARGUMENTS`
    - If no argument, ask user which lecture to review
-   - If just a name, look in `quarto/` or `slides/`
+   - If just a name, look in `slides/`
 
 2. **Launch the pedagogy-reviewer agent** with the full file path
    - The agent checks 13 pedagogical patterns
    - Performs deck-level analysis (narrative arc, pacing, visual rhythm, notation)
    - Considers student perspective (prerequisites, objections)
 
-3. **The agent produces a report** saved to:
-   `quality_reports/[FILENAME_WITHOUT_EXT]_pedagogy_report.md`
+3. **The agent produces a report** saved to disk (e.g., `[FILENAME_WITHOUT_EXT]_pedagogy_report.md`)
 
 4. **Present summary to user:**
    - Patterns followed vs violated (out of 13)

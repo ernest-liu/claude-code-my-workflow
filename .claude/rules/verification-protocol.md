@@ -1,8 +1,8 @@
 ---
 paths:
   - "slides/**/*.tex"
-  - "quarto/**/*.qmd"
-  - "docs/**"
+  - "slides/**/*.qmd"
+  - "output/**"
 ---
 
 # Task Completion Verification Protocol
@@ -10,8 +10,8 @@ paths:
 **At the end of EVERY task, Claude MUST verify the output works correctly.** This is non-negotiable.
 
 ## For Quarto/HTML Slides:
-1. Run `./scripts/sync_to_docs.sh` (or `./scripts/sync_to_docs.sh LectureN`) to render and deploy
-2. Open the HTML in browser: `open docs/slides/LectureX.html` (macOS) or `xdg-open` (Linux)
+1. Render the Quarto file and deploy output
+2. Open the HTML in browser: `open output/slides/LectureX.html` (macOS) or `xdg-open` (Linux)
 3. Verify images display by reading 2-3 image files to confirm valid content
 4. Check HTML source for correct image paths
 5. Check for overflow by scanning dense slides
@@ -28,17 +28,17 @@ paths:
 2. Use SVG (vector format) for crisp rendering: `pdf2svg input.pdf output.svg`
 3. **NEVER use PNG for diagrams** — PNG is raster and looks blurry
 4. Verify SVG files contain valid XML/SVG markup
-5. Copy SVGs to `docs/figures/LectureX/` via `sync_to_docs.sh`
+5. Copy SVGs to `output/figures/LectureX/` for deployment
 6. **Freshness check:** Before using any TikZ SVG, verify extract_tikz.tex matches current Beamer source
 
 ## For R Scripts:
-1. Run `Rscript scripts/r/filename.R`
+1. Run `Rscript filename.R`
 2. Verify output files (PDF, RDS) were created with non-zero size
 3. Spot-check estimates for reasonable magnitude
 
 ## Common Pitfalls:
 - **PDF images in HTML**: Browsers don't render PDFs inline → convert to SVG
-- **Relative paths**: `../figures/` works from `quarto/` but not from `docs/slides/` → use `sync_to_docs.sh`
+- **Relative paths**: Ensure paths resolve correctly in the deployment location (`output/`)
 - **Assuming success**: Always verify output files exist AND contain correct content
 - **Stale TikZ SVGs**: extract_tikz.tex diverges from Beamer source → always diff-check
 
@@ -47,7 +47,7 @@ paths:
 [ ] Output file created successfully
 [ ] No compilation/render errors
 [ ] Images/figures display correctly
-[ ] Paths resolve in deployment location (docs/)
+[ ] Paths resolve in deployment location (output/)
 [ ] Opened in browser/viewer to confirm visual appearance
 [ ] Reported results to user
 ```

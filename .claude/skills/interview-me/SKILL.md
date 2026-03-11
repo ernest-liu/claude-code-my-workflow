@@ -97,7 +97,7 @@ Once you have enough information (typically 5-8 exchanges), produce a **Research
 [Issues raised during the interview that need further thought]
 ```
 
-**Save to:** `quality_reports/research_spec_[sanitized_topic].md`
+**Save to disk** (e.g., `research_spec_[sanitized_topic].md`).
 
 ---
 

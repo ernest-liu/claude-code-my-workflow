@@ -156,4 +156,4 @@ Review the entire slide deck holistically. Produce a pedagogical report covering
 
 ## Save Location
 
-Save the report to: `quality_reports/[FILENAME_WITHOUT_EXT]_pedagogy_report.md`
+Save the report to disk (e.g., `[FILENAME_WITHOUT_EXT]_pedagogy_report.md`).

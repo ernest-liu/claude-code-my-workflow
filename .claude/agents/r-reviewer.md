@@ -117,7 +117,7 @@ Produce a thorough, actionable code review report. You do NOT edit files — you
 
 ## Report Format
 
-Save report to `quality_reports/[script_name]_r_review.md`:
+Save report to disk (e.g., `[script_name]_r_review.md`):
 
 ```markdown
 # R Code Review: [script_name].R

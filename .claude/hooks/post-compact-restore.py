@@ -56,15 +56,25 @@ def read_pre_compact_state() -> dict | None:
 
 
 def find_active_plan(project_dir: str) -> dict | None:
-    """Find the most recent plan file and extract its status."""
-    plans_dir = Path(project_dir) / "quality_reports" / "plans"
-    if not plans_dir.exists():
+    """Find the most recent plan file and extract its status.
+
+    Searches multiple candidate directories for plan files.
+    """
+    candidate_dirs = [
+        Path(project_dir) / "plans",
+        Path(project_dir) / "output" / "plans",
+    ]
+
+    plan_files: list[Path] = []
+    for plans_dir in candidate_dirs:
+        if plans_dir.exists():
+            plan_files.extend(plans_dir.glob("*.md"))
+
+    if not plan_files:
         return None
 
     # Get most recent plan file
-    plan_files = sorted(plans_dir.glob("*.md"), key=lambda f: f.stat().st_mtime, reverse=True)
-    if not plan_files:
-        return None
+    plan_files = sorted(plan_files, key=lambda f: f.stat().st_mtime, reverse=True)
 
     latest_plan = plan_files[0]
     content = latest_plan.read_text()
@@ -94,14 +104,24 @@ def find_active_plan(project_dir: str) -> dict | None:
 
 
 def find_recent_session_log(project_dir: str) -> dict | None:
-    """Find the most recent session log."""
-    logs_dir = Path(project_dir) / "quality_reports" / "session_logs"
-    if not logs_dir.exists():
+    """Find the most recent session log.
+
+    Searches multiple candidate directories for session logs.
+    """
+    candidate_dirs = [
+        Path(project_dir) / "session_logs",
+        Path(project_dir) / "output" / "session_logs",
+    ]
+
+    all_log_files: list[Path] = []
+    for logs_dir in candidate_dirs:
+        if logs_dir.exists():
+            all_log_files.extend(logs_dir.glob("*.md"))
+
+    if not all_log_files:
         return None
 
-    log_files = sorted(logs_dir.glob("*.md"), key=lambda f: f.stat().st_mtime, reverse=True)
-    if not log_files:
-        return None
+    log_files = sorted(all_log_files, key=lambda f: f.stat().st_mtime, reverse=True)
 
     return {
         "log_path": str(log_files[0]),

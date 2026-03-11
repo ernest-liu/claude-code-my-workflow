@@ -1,8 +1,8 @@
 ---
 paths:
   - "figures/**/*"
-  - "quarto/**/*.qmd"
   - "slides/**/*.tex"
+  - "slides/**/*.qmd"
 ---
 
 # Single Source of Truth: Enforcement Protocol

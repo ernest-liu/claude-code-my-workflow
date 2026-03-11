@@ -18,7 +18,7 @@ Conduct a structured literature search and synthesis on the given topic.
 1. **Parse the topic** from `$ARGUMENTS`. If a specific paper is named, use it as the anchor.
 
 2. **Search for related work** using available tools:
-   - Check `master_supporting_docs/supporting_papers/` for uploaded papers
+   - Check `raw/` for uploaded reference papers and supporting materials
    - Use `WebSearch` to find recent publications (if available)
    - Use `WebFetch` to access working paper repositories (if available)
    - Read any existing `.bib` file for papers already in the project
@@ -36,7 +36,7 @@ Conduct a structured literature search and synthesis on the given topic.
 
 5. **Extract citations** in BibTeX format for all papers discussed.
 
-6. **Save the report** to `quality_reports/lit_review_[sanitized_topic].md`
+6. **Save the report** to disk (e.g., `lit_review_[sanitized_topic].md`)
 
 ---
 

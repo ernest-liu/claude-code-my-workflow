@@ -28,8 +28,8 @@ Run a comprehensive consistency audit across the entire repository, fix all issu
 
 Launch these 4 agents simultaneously using `Task` with `subagent_type=general-purpose`:
 
-#### Agent 1: Guide Content Accuracy
-Focus: `guide/workflow-guide.qmd`
+#### Agent 1: Documentation Content Accuracy
+Focus: `README.md` and `CLAUDE.md`
 - All numeric claims match reality (skill count, agent count, rule count, hook count)
 - All file paths mentioned actually exist on disk
 - All skill/agent/rule names match actual directory names
@@ -56,11 +56,10 @@ Focus: `.claude/skills/*/SKILL.md` and `.claude/rules/*.md`
 - Rule `paths:` reference existing directories
 - No contradictions between rules
 - CLAUDE.md skills table matches actual skill directories 1:1
-- All templates referenced in rules/guide exist in `templates/`
 
 #### Agent 4: Cross-Document Consistency
-Focus: `README.md`, `docs/index.html`, `docs/workflow-guide.html`
-- All feature counts agree across all 3 documents
+Focus: `README.md`, `CLAUDE.md`
+- All feature counts agree across documents
 - All links point to valid targets
 - License section matches LICENSE file
 - Directory tree matches actual structure
@@ -84,15 +83,7 @@ Apply fixes in parallel where possible. For each fix:
 2. Apply the fix
 3. Verify the fix (grep for stale values, check syntax)
 
-### PHASE 4: Re-render if Guide Changed
-
-If `guide/workflow-guide.qmd` was modified:
-```bash
-quarto render guide/workflow-guide.qmd
-cp guide/workflow-guide.html docs/workflow-guide.html
-```
-
-### PHASE 5: Loop or Declare Clean
+### PHASE 4: Loop or Declare Clean
 
 After fixing, launch a fresh set of 4 agents to verify.
 - If new issues found → fix and loop again
@@ -113,7 +104,7 @@ These are real bugs found across 7 rounds — check for these specifically:
 | Hash length mismatch | All Python hooks | Some used `[:12]`, others `[:8]` |
 | Missing fail-open | Python hooks `__main__` | Unhandled exception → exit 1 → confusing behavior |
 | Python 3.10+ syntax | Type hints like `dict | None` | Need `from __future__ import annotations` |
-| Missing directories | quality_reports/specs/ | Referenced in rules but never created |
+| Missing directories | Referenced paths | Referenced in rules but never created |
 | Always-on rule listing | Guide + README | meta-governance omitted from listings |
 | macOS-only commands | Skills, rules | `open` without `xdg-open` fallback |
 | Protected file blocking | settings.json edits | protect-files.sh blocks Edit/Write |
@@ -135,8 +126,7 @@ After each round, report:
 ### Verification
 - [ ] No stale counts (grep confirms)
 - [ ] All hooks have fail-open + future annotations
-- [ ] Guide renders successfully
-- [ ] docs/ updated
+- [ ] All documentation is consistent
 
 ### Result: [CLEAN | N issues remaining]
 ```

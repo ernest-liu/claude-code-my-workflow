@@ -73,7 +73,7 @@ For every claim attributed to a specific paper:
 
 **Cross-reference with:**
 - The project bibliography file
-- Papers in `master_supporting_docs/supporting_papers/` (if available)
+- Papers in `raw/` (if available)
 - The knowledge base in `.claude/rules/` (if it has a notation/citation registry)
 
 ---
@@ -119,7 +119,7 @@ Check the target lecture against the knowledge base:
 
 ## Report Format
 
-Save report to `quality_reports/[FILENAME_WITHOUT_EXT]_substance_review.md`:
+Save report to disk (e.g., `[FILENAME_WITHOUT_EXT]_substance_review.md`):
 
 ```markdown
 # Substance Review: [Filename]

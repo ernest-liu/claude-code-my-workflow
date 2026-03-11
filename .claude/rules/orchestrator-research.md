@@ -1,13 +1,11 @@
 ---
 paths:
-  - "scripts/**/*.R"
-  - "explorations/**"
   - "figures/**/*.R"
 ---
 
 # Research Project Orchestrator (Simplified)
 
-**For R scripts, simulations, and data analysis** -- use this simplified loop instead of the full multi-agent orchestrator.
+**For R scripts, simulations, and data analysis** -- use this simplified loop instead of the full multi-agent orchestrator. Applies to R scripts in `figures/` and other project locations.
 
 ## The Simple Loop
 
