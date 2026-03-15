@@ -144,6 +144,7 @@ xelatex -interaction=nonstopmode file.tex
 | `/novelty-check [idea]` | Multi-source novelty verification |
 | `/research-review [file]` | Multi-round critical review via Codex MCP |
 | `/auto-review-loop` | Autonomous review loop until score ≥ 6/10 |
+| `/verify-task [desc]` | Cross-agent QA: generates eval prompt → Codex reviews → fix loop |
 | `/arxiv [query]` | Search, download, summarize arXiv papers |
 
 ### Paper Writing *(requires Codex MCP)*
