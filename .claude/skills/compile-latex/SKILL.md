@@ -38,7 +38,12 @@ BIBINPUTS=..:$BIBINPUTS latexmk -xelatex -interaction=nonstopmode $ARGUMENTS.tex
    # xdg-open slides/$ARGUMENTS.pdf    # Linux
    ```
 
-4. **Report results:**
+4. **Clean up auxiliary files:**
+   ```bash
+   cd slides && rm -f $ARGUMENTS.aux $ARGUMENTS.log $ARGUMENTS.out $ARGUMENTS.bbl $ARGUMENTS.blg $ARGUMENTS.bcf $ARGUMENTS.run.xml $ARGUMENTS.fls $ARGUMENTS.fdb_latexmk $ARGUMENTS.synctex.gz $ARGUMENTS.toc $ARGUMENTS-blx.bib
+   ```
+
+5. **Report results:**
    - Compilation success/failure
    - Number of overfull hbox warnings
    - Any undefined citations
@@ -54,3 +59,4 @@ BIBINPUTS=..:$BIBINPUTS latexmk -xelatex -interaction=nonstopmode $ARGUMENTS.tex
 - **Always use XeLaTeX**, never pdflatex
 - **BIBINPUTS** is required: your `.bib` file lives in the repo root
 - If your Beamer theme or preamble files are in a separate directory, add it to `TEXINPUTS`
+- **Auxiliary files are auto-cleaned** by a global PostToolUse hook after any LaTeX compilation
