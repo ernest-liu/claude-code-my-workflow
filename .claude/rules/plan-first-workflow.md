@@ -8,11 +8,24 @@
 2. **Check MEMORY.md** — read any `[LEARN]` entries relevant to this task
 3. **Requirements Specification (for complex/ambiguous tasks)** — see below
 4. **Draft the plan** — what changes, which files, in what order
-5. **Save to disk** — save plan to disk (e.g., `YYYY-MM-DD_short-description.md`)
+5. **Write PLAN.md** — save the plan to `PLAN.md` at project root (see template)
 6. **Present to user** — wait for approval
 7. **Exit plan mode** — only after approval
-8. **Save initial session log** — capture goal and key context while fresh
-9. **Implement via orchestrator** — see `orchestrator-protocol.md`
+8. **Implement via orchestrator** — see `orchestrator-protocol.md`
+
+## PLAN.md Structure
+
+Every plan must include for each task:
+- **Description** — what needs to be done
+- **Files** — exact paths and what to change in each
+- **Functions / Variables** — specific names to touch
+- **Success Criteria** — how to know the task is complete
+
+Also include:
+- **Out of Scope** — what NOT to touch this session
+- **Dependencies / Assumptions** — what must be true for the plan to work
+
+Mark tasks `[DONE]` or `[BLOCKED: reason]` as you work through them.
 
 ## Step 3: Requirements Specification (For Complex/Ambiguous Tasks)
 
@@ -28,25 +41,16 @@
 
 **Protocol:**
 1. Use AskUserQuestion to clarify ambiguities (max 3-5 questions)
-2. Create a requirements spec (e.g., `YYYY-MM-DD_description.md`)
-3. Mark each requirement:
+2. Mark each requirement:
    - **MUST** (non-negotiable)
    - **SHOULD** (preferred)
    - **MAY** (optional)
-4. Declare clarity status for each major aspect:
+3. Declare clarity status for each major aspect:
    - **CLEAR:** Fully specified
    - **ASSUMED:** Reasonable assumption (user can override)
    - **BLOCKED:** Cannot proceed until answered
-5. Get user approval on spec
-6. THEN proceed to Step 4 (draft the plan) with spec as input
-
-**Why this helps:** Catches ambiguity BEFORE planning. Reduces mid-plan pivots by 30-50%.
-
-## Plans on Disk
-
-Plans survive context compression. Save every plan to disk.
-
-Format: Status (DRAFT/APPROVED/COMPLETED), approach, files to modify, verification steps.
+4. Get user approval on spec
+5. THEN proceed to Step 4 (draft the plan) with spec as input
 
 ## Context Management
 
@@ -60,18 +64,17 @@ Format: Status (DRAFT/APPROVED/COMPLETED), approach, files to modify, verificati
 **Before Auto-Compression:**
 When approaching context limits, ensure:
 1. MEMORY.md has all `[LEARN]` entries from this session
-2. Session log is current (updated within 10 minutes)
-3. Active plan is saved to disk
-4. Open questions are documented in session log
+2. `CONTEXT.md` is up to date
+3. `PLAN.md` reflects current task status ([DONE] / [BLOCKED] markers)
 
 The pre-compact hook will remind you of this checklist.
 
 **After Compression:**
-First message should be: "Resuming after compression. Last task: [read most recent plan + git log]. Status: [next step]."
+First message should be: "Resuming after compression." Then read `PLAN.md` + `CONTEXT.md` + `git log --oneline -10`.
 
 ## Session Recovery
 
 After compression or new session:
-1. Read `CLAUDE.md` + most recent saved plan
+1. Read `PLAN.md` and `CONTEXT.md`
 2. Check `git log --oneline -10` and `git diff`
 3. State what you understand the current task to be

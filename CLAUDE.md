@@ -9,12 +9,49 @@
 
 ---
 
+## Session Startup Protocol
+
+At the start of every session, before doing anything else:
+
+1. Read `PLAN.md` if it exists. This is your task list for the session.
+2. Read `CONTEXT.md` if it exists. This is the state handoff from the previous session.
+3. Briefly confirm to the user: what tasks you see in PLAN.md, and any critical context from CONTEXT.md.
+4. Ask if the user wants to proceed, modify scope, or reprioritize.
+
+## Executing PLAN.md
+
+- Work through tasks in the order listed unless the user says otherwise.
+- Each task specifies: description, file paths, function/variable names, and success criteria. Use these precisely — do not infer file locations or function names.
+- After completing each task, mark it `[DONE]` in PLAN.md and report completion before moving on.
+- If a task is blocked, mark it `[BLOCKED: reason]` in PLAN.md and surface it immediately.
+
+## Session End Protocol
+
+When the user says "wrap up", "end session", or "update context", write a fresh `CONTEXT.md`:
+
+```
+# Session Context — [DATE]
+## What Was Done
+[Bullet list of completed tasks with file paths affected]
+## Current State
+[What works, what's been built]
+## Pending
+[Uncompleted tasks from PLAN.md with notes on partial progress]
+## Open Questions
+[Unresolved decisions or ambiguities needing user input]
+## Warnings / Gotchas
+[Fragile logic, naming conventions, dependencies, workarounds]
+```
+
+---
+
 ## Core Principles
 
-- **Plan first** -- enter plan mode before non-trivial tasks
+- **Plan first** -- use `PLAN.md` for non-trivial tasks; enter plan mode for complex ones
 - **Verify after** -- compile/render and confirm output at the end of every task
 - **Quality gates** -- nothing ships below 80/100
 - **[LEARN] tags** -- when corrected, save `[LEARN:category] wrong → right` to MEMORY.md
+- **No silent changes** -- never rename or restructure files outside PLAN.md without asking
 
 ---
 
@@ -35,7 +72,9 @@
 
 ```
 [YOUR-PROJECT]/
-├── CLAUDE.md                    # This file
+├── CLAUDE.md                    # This file (loaded every session)
+├── PLAN.md                      # Task list for current session
+├── CONTEXT.md                   # State handoff from previous session
 ├── .claude/                     # Rules, skills, agents, hooks
 ├── bibliography_base.bib        # Centralized bibliography
 ├── figures/                     # Figures and images

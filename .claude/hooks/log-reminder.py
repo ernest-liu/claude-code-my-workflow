@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Session Log Reminder Hook for Claude Code
+Context Update Reminder Hook for Claude Code
 
-A Stop hook that tracks how many responses have passed since the session
-log was last updated. After a threshold, it blocks Claude from stopping
-and reminds it to update the session log.
+A Stop hook that tracks how many responses have passed since CONTEXT.md
+was last updated. After a threshold, it blocks Claude from stopping
+and reminds it to update CONTEXT.md.
 
 Adapted from: https://gist.github.com/michaelewens/9a1bc5a97f3f9bbb79453e5b682df462
 
@@ -18,7 +18,6 @@ import json
 import sys
 import hashlib
 from pathlib import Path
-from datetime import datetime
 
 THRESHOLD = 15
 
@@ -43,8 +42,6 @@ def get_project_dir():
     except (json.JSONDecodeError, EOFError):
         hook_input = {}
 
-    # If stop_hook_active, Claude is already continuing from a previous
-    # Stop hook block — let it stop this time to avoid infinite loops.
     if hook_input.get("stop_hook_active", False):
         sys.exit(0)
 
@@ -52,12 +49,10 @@ def get_project_dir():
 
 
 def get_state_path() -> Path:
-    """Return the state file path for the current project."""
     return get_state_dir() / "log-reminder-state.json"
 
 
 def load_state(state_path: Path) -> dict:
-    """Load persisted state, or return defaults."""
     try:
         return json.loads(state_path.read_text())
     except (FileNotFoundError, json.JSONDecodeError):
@@ -65,31 +60,16 @@ def load_state(state_path: Path) -> dict:
 
 
 def save_state(state_path: Path, state: dict):
-    """Persist state to disk."""
     state_path.parent.mkdir(parents=True, exist_ok=True)
     state_path.write_text(json.dumps(state))
 
 
-def find_latest_log(project_dir: str) -> tuple[Path | None, float]:
-    """Find the most recently modified session log .md file.
-
-    Searches multiple candidate directories for session logs.
-    """
-    candidate_dirs = [
-        Path(project_dir) / "session_logs",
-        Path(project_dir) / "output" / "session_logs",
-    ]
-
-    all_md_files: list[Path] = []
-    for log_dir in candidate_dirs:
-        if log_dir.is_dir():
-            all_md_files.extend(log_dir.glob("*.md"))
-
-    if not all_md_files:
-        return None, 0.0
-
-    latest = max(all_md_files, key=lambda f: f.stat().st_mtime)
-    return latest, latest.stat().st_mtime
+def get_context_file(project_dir: str) -> tuple:
+    """Check CONTEXT.md at project root."""
+    context_file = Path(project_dir) / "CONTEXT.md"
+    if context_file.exists():
+        return context_file, context_file.stat().st_mtime
+    return None, 0.0
 
 
 def main():
@@ -100,33 +80,30 @@ def main():
     state_path = get_state_path()
     state = load_state(state_path)
 
-    latest_log, current_mtime = find_latest_log(project_dir)
-    today = datetime.now().strftime("%Y-%m-%d")
+    context_file, current_mtime = get_context_file(project_dir)
 
-    # Case 1: No session log exists at all — remind once, then let Claude work
-    if latest_log is None:
+    # Case 1: No CONTEXT.md — remind once
+    if context_file is None:
         if not state.get("no_log_reminded", False):
             state["no_log_reminded"] = True
             save_state(state_path, state)
             output = {
                 "decision": "block",
                 "reason": (
-                    f"No session log exists yet. Create one (e.g., "
-                    f"session_logs/{today}_description.md) "
-                    f"before continuing. Include the current goal and key context."
+                    "No CONTEXT.md exists yet. Create one at project root "
+                    "with the current goal, state, and open questions."
                 ),
             }
             json.dump(output, sys.stdout)
-        # Already reminded — let Claude proceed (it will create the log)
         sys.exit(0)
 
-    # Case 2: Log was updated since last check — reset everything
+    # Case 2: CONTEXT.md updated since last check — reset
     if current_mtime != state["last_mtime"]:
         state = {"counter": 0, "last_mtime": current_mtime, "reminded": False, "no_log_reminded": False}
         save_state(state_path, state)
         sys.exit(0)
 
-    # Case 3: Log not updated — increment counter
+    # Case 3: Not updated — increment counter
     state["counter"] += 1
 
     if state["counter"] >= THRESHOLD and not state["reminded"]:
@@ -135,9 +112,8 @@ def main():
         output = {
             "decision": "block",
             "reason": (
-                f"SESSION LOG REMINDER: {state['counter']} responses without "
-                f"updating the session log. Append your recent progress to "
-                f"{latest_log.name}."
+                f"CONTEXT REMINDER: {state['counter']} responses without "
+                f"updating CONTEXT.md. Append your recent progress."
             ),
         }
         json.dump(output, sys.stdout)
@@ -151,5 +127,4 @@ if __name__ == "__main__":
     try:
         main()
     except Exception:
-        # Fail open — never block Claude due to a hook bug
         sys.exit(0)

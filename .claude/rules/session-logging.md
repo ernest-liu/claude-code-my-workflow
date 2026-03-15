@@ -1,21 +1,32 @@
 # Session Logging
 
-**Log sessions to disk** (e.g., `YYYY-MM-DD_description.md`).
+**Use `CONTEXT.md` at project root as the session state handoff file.**
 
-## Three Triggers (all proactive)
+## Session Start
 
-### 1. Post-Plan Log
+1. Read `PLAN.md` — your task list
+2. Read `CONTEXT.md` — state from previous session
+3. Confirm scope with user before starting
 
-After plan approval, immediately capture: goal, approach, rationale, key context.
+## During Session
 
-### 2. Incremental Logging
+Append 1-3 lines to `CONTEXT.md` whenever:
+- A design decision is made
+- A problem is solved
+- The user corrects something
+- The approach changes
 
-Append 1-3 lines whenever: a design decision is made, a problem is solved, the user corrects something, or the approach changes. Do not batch.
+Do not batch — log incrementally.
 
-### 3. End-of-Session Log
+## Session End
 
-When wrapping up: high-level summary, quality scores, open questions, blockers.
+When the user says "wrap up", "end session", or "update context":
 
-## Quality Reports
+Write a fresh `CONTEXT.md` with:
+- **What Was Done** — completed tasks with file paths
+- **Current State** — what works, what's built
+- **Pending** — uncompleted tasks from PLAN.md
+- **Open Questions** — unresolved decisions needing user input
+- **Warnings / Gotchas** — fragile logic, dependencies, workarounds
 
-Generated **only at merge time** -- not at every commit or PR. Save to disk.
+Also update `PLAN.md` — mark all completed tasks `[DONE]`.

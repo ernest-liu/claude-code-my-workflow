@@ -2,12 +2,8 @@
 """
 Pre-Compact State Capture Hook
 
-Fires before context compaction to capture the current state:
-- Active plan path and status
-- Current task description
-- Recent decisions from session log
-
-This state is read by post-compact-restore.py after compaction.
+Fires before context compaction to capture the current state from
+PLAN.md and CONTEXT.md at project root.
 
 Hook Event: PreCompact
 Returns: Exit code 0 (message printed to stderr for visibility)
@@ -42,80 +38,46 @@ def get_session_dir() -> Path:
     return session_dir
 
 
-def find_active_plan(project_dir: str) -> dict | None:
-    """Find the most recent non-completed plan.
-
-    Searches multiple candidate directories for plan files.
-    """
-    candidate_dirs = [
-        Path(project_dir) / "plans",
-        Path(project_dir) / "output" / "plans",
-    ]
-
-    all_plan_files: list[Path] = []
-    for plans_dir in candidate_dirs:
-        if plans_dir.exists():
-            all_plan_files.extend(plans_dir.glob("*.md"))
-
-    if not all_plan_files:
+def read_plan_status(project_dir: str) -> dict | None:
+    """Read PLAN.md and extract current task status."""
+    plan_file = Path(project_dir) / "PLAN.md"
+    if not plan_file.exists():
         return None
 
-    plan_files = sorted(all_plan_files, key=lambda f: f.stat().st_mtime, reverse=True)
+    content = plan_file.read_text()
 
-    for plan_file in plan_files[:3]:  # Check last 3 plans
-        content = plan_file.read_text()
+    # Skip if it's just the template
+    if "[PROJECT NAME]" in content or "[Short title]" in content:
+        return None
 
-        # Skip completed plans
-        if "COMPLETED" in content.upper():
-            continue
+    # Find current task (first task not marked [DONE] or [BLOCKED])
+    current_task = None
+    for line in content.split("\n"):
+        if line.strip().startswith("### Task") and "[DONE]" not in line and "[BLOCKED" not in line:
+            current_task = line.strip().replace("### ", "")
+            break
 
-        # Extract status
-        status = "in_progress"
-        if "APPROVED" in content.upper():
-            status = "approved"
-        elif "DRAFT" in content.upper():
-            status = "draft"
+    # Count done vs total
+    tasks = [l for l in content.split("\n") if l.strip().startswith("### Task")]
+    done = sum(1 for t in tasks if "[DONE]" in t)
 
-        # Find current task (first unchecked item)
-        current_task = None
-        for line in content.split("\n"):
-            if "- [ ]" in line:
-                current_task = line.replace("- [ ]", "").strip()
-                break
-
-        return {
-            "plan_path": str(plan_file),
-            "plan_name": plan_file.name,
-            "status": status,
-            "current_task": current_task
-        }
-
-    return None
+    return {
+        "plan_path": "PLAN.md",
+        "current_task": current_task,
+        "tasks_done": done,
+        "tasks_total": len(tasks),
+    }
 
 
 def extract_recent_decisions(project_dir: str, limit: int = 3) -> list[str]:
-    """Extract recent decisions from the session log.
-
-    Searches multiple candidate directories for session logs.
-    """
-    candidate_dirs = [
-        Path(project_dir) / "session_logs",
-        Path(project_dir) / "output" / "session_logs",
-    ]
-
-    all_log_files: list[Path] = []
-    for logs_dir in candidate_dirs:
-        if logs_dir.exists():
-            all_log_files.extend(logs_dir.glob("*.md"))
-
-    if not all_log_files:
+    """Extract recent decisions from CONTEXT.md."""
+    context_file = Path(project_dir) / "CONTEXT.md"
+    if not context_file.exists():
         return []
 
-    log_files = sorted(all_log_files, key=lambda f: f.stat().st_mtime, reverse=True)
-    content = log_files[0].read_text()
+    content = context_file.read_text()
     decisions = []
 
-    # Look for decision markers
     patterns = [
         r"Decision:\s*(.+)",
         r"Decided:\s*(.+)",
@@ -124,7 +86,7 @@ def extract_recent_decisions(project_dir: str, limit: int = 3) -> list[str]:
         r"•\s*(.+)"
     ]
 
-    for line in content.split("\n")[-50:]:  # Last 50 lines
+    for line in content.split("\n")[-50:]:
         for pattern in patterns:
             match = re.search(pattern, line.strip())
             if match and len(match.group(1)) > 10:
@@ -146,31 +108,17 @@ def save_state(state: dict) -> None:
         print(f"Warning: Could not save pre-compact state: {e}", file=sys.stderr)
 
 
-def append_to_session_log(project_dir: str, trigger: str) -> None:
-    """Append compaction note to session log.
-
-    Searches multiple candidate directories for session logs.
-    """
-    candidate_dirs = [
-        Path(project_dir) / "session_logs",
-        Path(project_dir) / "output" / "session_logs",
-    ]
-
-    all_log_files: list[Path] = []
-    for logs_dir in candidate_dirs:
-        if logs_dir.exists():
-            all_log_files.extend(logs_dir.glob("*.md"))
-
-    if not all_log_files:
+def append_compaction_note(project_dir: str, trigger: str) -> None:
+    """Append compaction note to CONTEXT.md."""
+    context_file = Path(project_dir) / "CONTEXT.md"
+    if not context_file.exists():
         return
 
-    log_files = sorted(all_log_files, key=lambda f: f.stat().st_mtime, reverse=True)
-
     try:
-        with open(log_files[0], "a") as f:
+        with open(context_file, "a") as f:
             f.write(f"\n\n---\n")
             f.write(f"**Context compaction ({trigger}) at {datetime.now().strftime('%H:%M')}**\n")
-            f.write(f"Check git log and plan files on disk for current state.\n")
+            f.write(f"Read PLAN.md and CONTEXT.md to restore state.\n")
     except IOError:
         pass
 
@@ -183,7 +131,7 @@ def format_compaction_message(plan_info: dict | None, decisions: list[str]) -> s
 
     if plan_info:
         lines.append(f"{GREEN}Current state saved:{NC}")
-        lines.append(f"  Plan: {plan_info['plan_name']} ({plan_info['status']})")
+        lines.append(f"  Plan: PLAN.md ({plan_info['tasks_done']}/{plan_info['tasks_total']} tasks done)")
         if plan_info.get("current_task"):
             lines.append(f"  Next task: {plan_info['current_task']}")
 
@@ -202,7 +150,6 @@ def format_compaction_message(plan_info: dict | None, decisions: list[str]) -> s
 
 def main() -> int:
     """Main hook entry point."""
-    # Read hook input
     try:
         hook_input = json.load(sys.stdin)
     except (json.JSONDecodeError, IOError):
@@ -215,25 +162,26 @@ def main() -> int:
         return 0
 
     # Gather state
-    plan_info = find_active_plan(project_dir)
+    plan_info = read_plan_status(project_dir)
     decisions = extract_recent_decisions(project_dir)
 
     # Build state object
     state = {
         "trigger": trigger,
-        "plan_path": plan_info["plan_path"] if plan_info else None,
-        "plan_status": plan_info["status"] if plan_info else None,
+        "plan_path": "PLAN.md" if plan_info else None,
         "current_task": plan_info.get("current_task") if plan_info else None,
+        "tasks_done": plan_info.get("tasks_done") if plan_info else None,
+        "tasks_total": plan_info.get("tasks_total") if plan_info else None,
         "decisions": decisions
     }
 
     # Save state for restoration
     save_state(state)
 
-    # Append note to session log
-    append_to_session_log(project_dir, trigger)
+    # Append note to CONTEXT.md
+    append_compaction_note(project_dir, trigger)
 
-    # Print to stderr (PreCompact ignores stdout; stderr is shown to user)
+    # Print to stderr
     print(format_compaction_message(plan_info, decisions), file=sys.stderr)
 
     return 0

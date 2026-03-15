@@ -2,9 +2,7 @@
 """
 Post-Compact Context Restoration Hook
 
-Fires after compaction (SessionStart with source="compact") to restore context.
-Reads saved state from the session directory and prints it so Claude knows
-where it left off.
+Fires after compaction to restore context from PLAN.md and CONTEXT.md.
 
 Hook Event: SessionStart (matcher: "compact|resume")
 Returns: Exit code 0 (output to stdout)
@@ -16,7 +14,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from datetime import datetime
+import hashlib
 
 # Colors for terminal output
 CYAN = "\033[0;36m"
@@ -31,8 +29,6 @@ def get_session_dir() -> Path:
     if not project_dir:
         return Path.home() / ".claude" / "sessions" / "default"
 
-    # Use a hash of the project dir for the session subdir
-    import hashlib
     project_hash = hashlib.md5(project_dir.encode()).hexdigest()[:8]
     session_dir = Path.home() / ".claude" / "sessions" / project_hash
     session_dir.mkdir(parents=True, exist_ok=True)
@@ -55,84 +51,17 @@ def read_pre_compact_state() -> dict | None:
         return None
 
 
-def find_active_plan(project_dir: str) -> dict | None:
-    """Find the most recent plan file and extract its status.
-
-    Searches multiple candidate directories for plan files.
-    """
-    candidate_dirs = [
-        Path(project_dir) / "plans",
-        Path(project_dir) / "output" / "plans",
-    ]
-
-    plan_files: list[Path] = []
-    for plans_dir in candidate_dirs:
-        if plans_dir.exists():
-            plan_files.extend(plans_dir.glob("*.md"))
-
-    if not plan_files:
-        return None
-
-    # Get most recent plan file
-    plan_files = sorted(plan_files, key=lambda f: f.stat().st_mtime, reverse=True)
-
-    latest_plan = plan_files[0]
-    content = latest_plan.read_text()
-
-    # Extract status from plan content
-    status = "unknown"
-    if "COMPLETED" in content.upper():
-        status = "completed"
-    elif "APPROVED" in content.upper():
-        status = "in_progress"
-    elif "DRAFT" in content.upper():
-        status = "draft"
-
-    # Extract current task if present
-    current_task = None
-    for line in content.split("\n"):
-        if "- [ ]" in line:  # First unchecked task
-            current_task = line.replace("- [ ]", "").strip()
-            break
-
+def check_files_exist(project_dir: str) -> dict:
+    """Check which handoff files exist."""
     return {
-        "plan_path": str(latest_plan),
-        "plan_name": latest_plan.name,
-        "status": status,
-        "current_task": current_task
-    }
-
-
-def find_recent_session_log(project_dir: str) -> dict | None:
-    """Find the most recent session log.
-
-    Searches multiple candidate directories for session logs.
-    """
-    candidate_dirs = [
-        Path(project_dir) / "session_logs",
-        Path(project_dir) / "output" / "session_logs",
-    ]
-
-    all_log_files: list[Path] = []
-    for logs_dir in candidate_dirs:
-        if logs_dir.exists():
-            all_log_files.extend(logs_dir.glob("*.md"))
-
-    if not all_log_files:
-        return None
-
-    log_files = sorted(all_log_files, key=lambda f: f.stat().st_mtime, reverse=True)
-
-    return {
-        "log_path": str(log_files[0]),
-        "log_name": log_files[0].name
+        "plan": (Path(project_dir) / "PLAN.md").exists(),
+        "context": (Path(project_dir) / "CONTEXT.md").exists(),
     }
 
 
 def format_restoration_message(
     pre_compact_state: dict | None,
-    plan_info: dict | None,
-    session_log: dict | None
+    files: dict,
 ) -> str:
     """Format the context restoration message for Claude."""
     lines = []
@@ -141,33 +70,23 @@ def format_restoration_message(
 
     if pre_compact_state:
         lines.append(f"{GREEN}Pre-Compaction State:{NC}")
-        if pre_compact_state.get("plan_path"):
-            lines.append(f"  Plan: {pre_compact_state['plan_path']}")
         if pre_compact_state.get("current_task"):
-            lines.append(f"  Task: {pre_compact_state['current_task']}")
+            lines.append(f"  Current task: {pre_compact_state['current_task']}")
+        if pre_compact_state.get("tasks_done") is not None:
+            lines.append(f"  Progress: {pre_compact_state['tasks_done']}/{pre_compact_state['tasks_total']} tasks done")
         if pre_compact_state.get("decisions"):
             lines.append("  Recent decisions:")
             for decision in pre_compact_state["decisions"][-3:]:
                 lines.append(f"    - {decision}")
         lines.append("")
 
-    if plan_info:
-        lines.append(f"{GREEN}Active Plan:{NC}")
-        lines.append(f"  File: {plan_info['plan_name']}")
-        lines.append(f"  Status: {plan_info['status']}")
-        if plan_info.get("current_task"):
-            lines.append(f"  Next task: {plan_info['current_task']}")
-        lines.append("")
-
-    if session_log:
-        lines.append(f"{GREEN}Session Log:{NC}")
-        lines.append(f"  {session_log['log_name']}")
-        lines.append("")
-
     lines.append(f"{YELLOW}Recovery Actions:{NC}")
-    lines.append("  1. Read the active plan to understand current objectives")
-    lines.append("  2. Check git status/diff for uncommitted changes")
-    lines.append("  3. Continue from where you left off")
+    if files["plan"]:
+        lines.append("  1. Read PLAN.md for current task list and progress")
+    if files["context"]:
+        lines.append("  2. Read CONTEXT.md for session state and open questions")
+    lines.append("  3. Check git status/diff for uncommitted changes")
+    lines.append("  4. Continue from where you left off")
     lines.append("")
 
     return "\n".join(lines)
@@ -175,7 +94,6 @@ def format_restoration_message(
 
 def main() -> int:
     """Main hook entry point."""
-    # Read hook input (not strictly needed but good practice)
     try:
         hook_input = json.load(sys.stdin)
     except (json.JSONDecodeError, IOError):
@@ -192,12 +110,10 @@ def main() -> int:
 
     # Gather context
     pre_compact_state = read_pre_compact_state()
-    plan_info = find_active_plan(project_dir)
-    session_log = find_recent_session_log(project_dir)
+    files = check_files_exist(project_dir)
 
-    # If we have any context to restore, print it
-    if pre_compact_state or plan_info or session_log:
-        message = format_restoration_message(pre_compact_state, plan_info, session_log)
+    if pre_compact_state or files["plan"] or files["context"]:
+        message = format_restoration_message(pre_compact_state, files)
         print(message)
 
     return 0
