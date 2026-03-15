@@ -1,7 +1,7 @@
 ---
 name: compile-latex
 description: Compile a Beamer LaTeX slide deck with XeLaTeX (3 passes + bibtex). Use when compiling lecture slides.
-argument-hint: "[filename without .tex extension]"
+argument-hint: "[filename, e.g. lecture01 or lecture01.tex]"
 allowed-tools: ["Read", "Bash", "Glob"]
 ---
 
@@ -9,45 +9,63 @@ allowed-tools: ["Read", "Bash", "Glob"]
 
 Compile a Beamer slide deck using XeLaTeX with full citation resolution.
 
-## Steps
+## Step 0: Normalize filename — CRITICAL, DO NOT SKIP
 
-1. **Navigate to slides/ directory** and compile with 3-pass sequence:
+**⚠️ The argument may or may not include `.tex`. Strip it unconditionally so you never get `file.tex.tex`:**
+
+```bash
+BASENAME="${ARGUMENTS%.tex}"
+```
+
+**From this point forward, ONLY use `$BASENAME` — NEVER use `$ARGUMENTS` directly.**
+
+Verify: `echo "$BASENAME"` should print something like `lecture01`, NOT `lecture01.tex`.
+
+## Step 1: Compile
+
+Navigate to `slides/` and run the 3-pass sequence:
 
 ```bash
 cd slides
-xelatex -interaction=nonstopmode $ARGUMENTS.tex
-BIBINPUTS=..:$BIBINPUTS bibtex $ARGUMENTS
-xelatex -interaction=nonstopmode $ARGUMENTS.tex
-xelatex -interaction=nonstopmode $ARGUMENTS.tex
+xelatex -interaction=nonstopmode "$BASENAME.tex"
+BIBINPUTS=..:$BIBINPUTS bibtex "$BASENAME"
+xelatex -interaction=nonstopmode "$BASENAME.tex"
+xelatex -interaction=nonstopmode "$BASENAME.tex"
 ```
 
 **Alternative (latexmk):**
 ```bash
 cd slides
-BIBINPUTS=..:$BIBINPUTS latexmk -xelatex -interaction=nonstopmode $ARGUMENTS.tex
+BIBINPUTS=..:$BIBINPUTS latexmk -xelatex -interaction=nonstopmode "$BASENAME.tex"
 ```
 
-2. **Check for warnings:**
-   - Grep output for `Overfull \\hbox` warnings
-   - Grep for `undefined citations` or `Label(s) may have changed`
-   - Report any issues found
+## Step 2: Check for warnings
 
-3. **Open the PDF** for visual verification:
-   ```bash
-   open slides/$ARGUMENTS.pdf          # macOS
-   # xdg-open slides/$ARGUMENTS.pdf    # Linux
-   ```
+- Grep output for `Overfull \\hbox` warnings
+- Grep for `undefined citations` or `Label(s) may have changed`
+- Report any issues found
 
-4. **Clean up auxiliary files:**
-   ```bash
-   cd slides && rm -f $ARGUMENTS.aux $ARGUMENTS.log $ARGUMENTS.out $ARGUMENTS.bbl $ARGUMENTS.blg $ARGUMENTS.bcf $ARGUMENTS.run.xml $ARGUMENTS.fls $ARGUMENTS.fdb_latexmk $ARGUMENTS.synctex.gz $ARGUMENTS.toc $ARGUMENTS-blx.bib
-   ```
+## Step 3: Open the PDF
 
-5. **Report results:**
-   - Compilation success/failure
-   - Number of overfull hbox warnings
-   - Any undefined citations
-   - PDF page count
+```bash
+open slides/$BASENAME.pdf          # macOS
+# xdg-open slides/$BASENAME.pdf    # Linux
+```
+
+## Step 4: Clean up auxiliary files — MANDATORY, NO HOOK EXISTS
+
+**There is NO automatic cleanup hook. You MUST run this step every time, no exceptions.**
+
+```bash
+cd slides && rm -f "$BASENAME".{aux,log,out,bbl,blg,bcf,run.xml,fls,fdb_latexmk,synctex.gz,toc,nav,snm,vrb} "$BASENAME-blx.bib"
+```
+
+## Step 5: Report results
+
+- Compilation success/failure
+- Number of overfull hbox warnings
+- Any undefined citations
+- PDF page count
 
 ## Why 3 passes?
 1. First xelatex: Creates `.aux` file with citation keys
@@ -59,4 +77,5 @@ BIBINPUTS=..:$BIBINPUTS latexmk -xelatex -interaction=nonstopmode $ARGUMENTS.tex
 - **Always use XeLaTeX**, never pdflatex
 - **BIBINPUTS** is required: your `.bib` file lives in the repo root
 - If your Beamer theme or preamble files are in a separate directory, add it to `TEXINPUTS`
-- **Auxiliary files are auto-cleaned** by a global PostToolUse hook after any LaTeX compilation
+- **Step 0 is non-negotiable** — double-check BASENAME before compiling
+- **Step 4 is manual** — no hook will do it for you
