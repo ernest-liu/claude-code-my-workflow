@@ -93,6 +93,13 @@ cd slides && xelatex -interaction=nonstopmode file.tex
 BIBINPUTS=..:$BIBINPUTS bibtex file
 xelatex -interaction=nonstopmode file.tex
 xelatex -interaction=nonstopmode file.tex
+
+# MANDATORY: Clean aux files after EVERY compilation (no auto-hook exists)
+find . -maxdepth 1 -type f \( -name "*.aux" -o -name "*.log" -o -name "*.nav" \
+  -o -name "*.out" -o -name "*.snm" -o -name "*.toc" -o -name "*.vrb" \
+  -o -name "*.bbl" -o -name "*.blg" -o -name "*.bcf" -o -name "*.run.xml" \
+  -o -name "*.synctex.gz" -o -name "*.fls" -o -name "*.fdb_latexmk" \
+  -o -name "*-blx.bib" \) -delete
 ```
 
 ---

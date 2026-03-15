@@ -57,7 +57,10 @@ open slides/$BASENAME.pdf          # macOS
 **There is NO automatic cleanup hook. You MUST run this step every time, no exceptions.**
 
 ```bash
-cd slides && rm -f "$BASENAME".{aux,log,out,bbl,blg,bcf,run.xml,fls,fdb_latexmk,synctex.gz,toc,nav,snm,vrb} "$BASENAME-blx.bib"
+cd slides && find . -maxdepth 1 -type f \( -name "*.aux" -o -name "*.log" -o -name "*.nav" -o -name "*.out" -o -name "*.snm" -o -name "*.toc" -o -name "*.vrb" -o -name "*.bbl" -o -name "*.blg" -o -name "*.bcf" -o -name "*.run.xml" -o -name "*.synctex.gz" -o -name "*.fls" -o -name "*.fdb_latexmk" -o -name "*-blx.bib" \) -delete
+```
+
+**Why `find` instead of `rm -f *.ext`?** zsh's `nomatch` option errors when a glob has no matches. `find` handles missing extensions silently.
 ```
 
 ## Step 5: Report results
