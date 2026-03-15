@@ -109,26 +109,60 @@ xelatex -interaction=nonstopmode file.tex
 
 ## Skills Quick Reference
 
+### Slides & LaTeX
+
 | Command | What It Does |
 |---------|-------------|
 | `/compile-latex [file]` | 3-pass XeLaTeX + bibtex |
 | `/deploy [LectureN]` | Render + deploy output |
 | `/extract-tikz [LectureN]` | TikZ → PDF → SVG |
+| `/create-lecture` | Full lecture creation |
+| `/translate-to-quarto [file]` | Beamer → Quarto translation |
+
+### Review & QA
+
+| Command | What It Does |
+|---------|-------------|
 | `/proofread [file]` | Grammar/typo/overflow review |
 | `/visual-audit [file]` | Slide layout audit |
 | `/pedagogy-review [file]` | Narrative, notation, pacing review |
 | `/review-r [file]` | R code quality review |
 | `/qa-quarto [LectureN]` | Adversarial QA review |
 | `/slide-excellence [file]` | Combined multi-agent review |
-| `/translate-to-quarto [file]` | Beamer → Quarto translation |
 | `/validate-bib` | Cross-reference citations |
 | `/devils-advocate` | Challenge slide design |
-| `/create-lecture` | Full lecture creation |
-| `/commit [msg]` | Stage, commit, PR, merge |
-| `/lit-review [topic]` | Literature search + synthesis |
-| `/research-ideation [topic]` | Research questions + strategies |
-| `/interview-me [topic]` | Interactive research interview |
 | `/review-paper [file]` | Manuscript review |
+
+### Research Pipeline *(requires Codex MCP)*
+
+| Command | What It Does |
+|---------|-------------|
+| `/research-pipeline [topic]` | Full end-to-end: idea → implement → review |
+| `/idea-discovery [topic]` | Lit search → brainstorm → novelty check → review |
+| `/research-lit [topic]` | Multi-source literature search + synthesis |
+| `/idea-creator [topic]` | Brainstorm 8-12 ideas via GPT, filter, pilot top 3 |
+| `/novelty-check [idea]` | Multi-source novelty verification |
+| `/research-review [file]` | Multi-round critical review via Codex MCP |
+| `/auto-review-loop` | Autonomous review loop until score ≥ 6/10 |
+| `/arxiv [query]` | Search, download, summarize arXiv papers |
+
+### Paper Writing *(requires Codex MCP)*
+
+| Command | What It Does |
+|---------|-------------|
+| `/paper-writing` | Full pipeline: plan → figure → write → compile → polish |
+| `/paper-plan` | Claims-evidence matrix + section structure |
+| `/paper-figure` | matplotlib/seaborn plots + LaTeX tables |
+| `/paper-write` | Section-by-section LaTeX with de-AI polish |
+| `/paper-compile` | latexmk build + auto-fix + page verification |
+| `/auto-paper-improvement-loop` | 2-round GPT review → fix → recompile |
+
+### Utilities
+
+| Command | What It Does |
+|---------|-------------|
+| `/commit [msg]` | Stage, commit, PR, merge |
+| `/interview-me [topic]` | Interactive research interview |
 | `/data-analysis [dataset]` | End-to-end R analysis |
 | `/learn [skill-name]` | Extract discovery into persistent skill |
 | `/context-status` | Show session health + context usage |
