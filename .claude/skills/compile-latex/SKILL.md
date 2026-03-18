@@ -61,7 +61,6 @@ cd slides && find . -maxdepth 1 -type f \( -name "*.aux" -o -name "*.log" -o -na
 ```
 
 **Why `find` instead of `rm -f *.ext`?** zsh's `nomatch` option errors when a glob has no matches. `find` handles missing extensions silently.
-```
 
 ## Step 5: Report results
 

@@ -5,7 +5,7 @@ description: |
   Use to check how much context has been used, whether auto-compact is
   approaching, and what state will be preserved.
 author: Claude Code Academic Workflow
-version: 1.0.0
+version: 2.0.0
 allowed-tools: ["Read", "Bash", "Glob"]
 ---
 
@@ -14,35 +14,43 @@ allowed-tools: ["Read", "Bash", "Glob"]
 Show the current session status including context usage estimate, active plan,
 and preservation state.
 
-## What This Skill Shows
+## Context Window
 
-1. **Context usage estimate** — Approximate % of context window used
-2. **Active plan** — Current plan file and status
-3. **Session log** — Most recent session log
-4. **Preservation state** — What will survive compaction
+Claude Code Opus has a **1,000,000 token** context window. Auto-compaction triggers
+when usage approaches this limit. There is no reliable way to query exact token
+usage from within a session — estimates below are rough approximations based on
+conversation length and tool calls.
 
 ## Workflow
 
-### Step 1: Check Context Monitor Cache
+### Step 1: Estimate Context Usage
 
-Read the context monitor cache to get the current estimate:
+Provide a qualitative estimate based on session activity:
+- **Low** (<25%): Short session, few tool calls, minimal file reads
+- **Moderate** (25-50%): Medium session, several file reads and edits
+- **High** (50-75%): Long session, many large file reads, extensive tool use
+- **Critical** (>75%): Very long session, should save state soon
 
-```bash
-cat ~/.claude/sessions/*/context-monitor-cache.json 2>/dev/null | head -20
-```
+Note: This is a rough heuristic. If you've read many large files or had extensive
+back-and-forth, bias toward higher estimates.
 
 ### Step 2: Find Active Plan
 
 ```bash
-# Check for plan files saved to disk (location varies by project)
-ls -lt **/plans/*.md 2>/dev/null | head -3
+ls -lt PLAN.md 2>/dev/null
 ```
 
-### Step 3: Find Session Log
+Read PLAN.md and report:
+- How many tasks total
+- How many marked [DONE]
+- How many remaining
+- Any [BLOCKED] items
+
+### Step 3: Check Context Handoff Files
 
 ```bash
-# Check for session logs saved to disk (location varies by project)
-ls -lt **/session_logs/*.md 2>/dev/null | head -1
+ls -lt CONTEXT.md 2>/dev/null
+ls -lt MEMORY.md 2>/dev/null
 ```
 
 ### Step 4: Report Status
@@ -52,25 +60,25 @@ Format the output:
 ```
 Session Status
 ─────────────────────────────────
-Context Usage:  ~XX% (estimated)
-Auto-compact:   [approaching | not imminent]
+Context Window:  1,000,000 tokens (Opus)
+Usage Estimate:  [Low / Moderate / High / Critical]
 
 Active Plan
-File:   [plan file path]
-Status: [draft | approved | in_progress | completed]
-Task:   [current unchecked task or "none"]
+File:   PLAN.md [exists / missing]
+Tasks:  X total, Y done, Z remaining, W blocked
 
-Session Log
-File:   [session log file path]
+Session Handoff
+CONTEXT.md:  [exists (date) / missing]
+MEMORY.md:   [exists / missing]
 
-Preservation Check
-  - Pre-compact hook: [configured | missing]
-  - Post-compact restore: [configured | missing]
-  - Session state will be saved before compaction
+Recommendation
+[If High/Critical: "Consider wrapping up — run 'update context' to save state"]
+[If Low/Moderate: "Plenty of room — continue working"]
 ```
 
 ## Notes
 
-- Context % is an estimate based on tool call count
-- Actual compaction is triggered by Claude Code automatically
-- All important state is saved to disk (plans, logs, MEMORY.md)
+- Context window is 1,000,000 tokens for Claude Opus 4.6
+- Auto-compaction is handled by Claude Code automatically — no user action needed
+- All important state should be saved to disk (PLAN.md, CONTEXT.md, MEMORY.md)
+- If approaching limits, prioritize saving CONTEXT.md before compaction hits
