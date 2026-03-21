@@ -17,22 +17,47 @@ and preservation state.
 ## Context Window
 
 Claude Code Opus has a **1,000,000 token** context window. Auto-compaction triggers
-when usage approaches this limit. There is no reliable way to query exact token
-usage from within a session — estimates below are rough approximations based on
-conversation length and tool calls.
+when usage approaches this limit.
 
 ## Workflow
 
-### Step 1: Estimate Context Usage
+### Step 1: Measure Session Transcript Size
 
-Provide a qualitative estimate based on session activity:
-- **Low** (<25%): Short session, few tool calls, minimal file reads
-- **Moderate** (25-50%): Medium session, several file reads and edits
-- **High** (50-75%): Long session, many large file reads, extensive tool use
-- **Critical** (>75%): Very long session, should save state soon
+Find and measure the current session's JSONL transcript file:
 
-Note: This is a rough heuristic. If you've read many large files or had extensive
-back-and-forth, bias toward higher estimates.
+```bash
+# Find the most recently modified .jsonl in the project's Claude sessions dir
+# The project path is derived from the current working directory
+PROJECT_HASH=$(echo "$PWD" | sed 's|/|-|g; s|^-||')
+SESSION_DIR="$HOME/.claude/projects/$PROJECT_HASH"
+TRANSCRIPT=$(ls -t "$SESSION_DIR"/*.jsonl 2>/dev/null | head -1)
+if [ -n "$TRANSCRIPT" ]; then
+  BYTES=$(stat -f%z "$TRANSCRIPT" 2>/dev/null || stat -c%s "$TRANSCRIPT" 2>/dev/null)
+  MB=$(echo "scale=1; $BYTES / 1048576" | bc)
+  echo "Transcript: ${MB}MB ($TRANSCRIPT)"
+else
+  echo "No transcript found"
+fi
+```
+
+**Interpreting transcript size** (rough calibration based on observed sessions):
+- **< 1 MB**: Early session, plenty of room
+- **1-3 MB**: Moderate usage, no concerns
+- **3-6 MB**: Substantial session, approaching middle of context
+- **6-10 MB**: Heavy session, consider saving state soon
+- **> 10 MB**: Likely near compaction — session may have already been compacted
+
+Note: Transcript size in bytes ≠ token count. The JSONL includes tool call metadata,
+full file contents from Read calls, and system prompts. A 10MB transcript may use
+far more or less than 50% of the 1M token window depending on content. Treat these
+thresholds as rough guidance, not precise measurements.
+
+Also check if the session has already been compacted:
+```bash
+grep -c '"type":"summary"' "$TRANSCRIPT" 2>/dev/null || echo "0"
+```
+If > 0, the session has been compacted at least once — context was already near-full
+at some point.
 
 ### Step 2: Find Active Plan
 
@@ -61,7 +86,8 @@ Format the output:
 Session Status
 ─────────────────────────────────
 Context Window:  1,000,000 tokens (Opus)
-Usage Estimate:  [Low / Moderate / High / Critical]
+Transcript:      X.X MB  [compacted: N times]
+Estimate:        [Early / Moderate / Heavy / Near-limit]
 
 Active Plan
 File:   PLAN.md [exists / missing]
@@ -72,8 +98,8 @@ CONTEXT.md:  [exists (date) / missing]
 MEMORY.md:   [exists / missing]
 
 Recommendation
-[If High/Critical: "Consider wrapping up — run 'update context' to save state"]
-[If Low/Moderate: "Plenty of room — continue working"]
+[If Heavy/Near-limit: "Consider saving state — run 'update context'"]
+[If Early/Moderate: "Plenty of room — continue working"]
 ```
 
 ## Notes
@@ -82,3 +108,4 @@ Recommendation
 - Auto-compaction is handled by Claude Code automatically — no user action needed
 - All important state should be saved to disk (PLAN.md, CONTEXT.md, MEMORY.md)
 - If approaching limits, prioritize saving CONTEXT.md before compaction hits
+- Transcript size is the best available proxy but is NOT a precise token count
