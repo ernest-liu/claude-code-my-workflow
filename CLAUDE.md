@@ -77,11 +77,14 @@ When the user says "wrap up", "end session", or "update context", write a fresh 
 ├── CONTEXT.md                   # State handoff from previous session
 ├── .claude/                     # Rules, skills, agents, hooks
 ├── bibliography_base.bib        # Centralized bibliography
-├── figures/                     # Figures and images
-├── slides/                      # Source .tex / .md files
-├── output/                      # Compiled PDFs and generated artifacts
 └── raw/                         # Reference papers, data, supporting materials
 ```
+
+**On-demand folders** — create only when needed:
+- `figures/` — when the project has figures or images
+- `slides/` — when the project has Beamer/Quarto slides
+- `output/` — when compiled PDFs or artifacts are generated
+- `tools/` — when the project has helper scripts
 
 ---
 
@@ -91,7 +94,7 @@ If this project syncs with Overleaf, **only push files needed for compilation**.
 Claude infrastructure stays local via `.gitignore`.
 
 **What goes to Overleaf:** `.tex`, `.bib`, `.sty`, `.cls`, `figures/`, `.bst`
-**What stays local:** `.claude/`, `CLAUDE.md`, `PLAN.md`, `CONTEXT.md`, `MEMORY.md`, `raw/`, `tools/`, `*_proposed.tex`, `*_diff.*`
+**What stays local:** `.claude/`, `CLAUDE.md`, `PLAN.md`, `CONTEXT.md`, `MEMORY.md`, `raw/`, `*_proposed.tex`, `*_diff.*`
 
 **Setup:** Uncomment the "Overleaf Integration" block in `.gitignore`.
 
