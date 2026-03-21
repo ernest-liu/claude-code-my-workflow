@@ -164,6 +164,7 @@ find . -maxdepth 1 -type f \( -name "*.aux" -o -name "*.log" -o -name "*.nav" \
 | `/paper-write` | Section-by-section LaTeX with de-AI polish |
 | `/paper-compile` | latexmk build + auto-fix + page verification |
 | `/auto-paper-improvement-loop` | 2-round GPT review → fix → recompile |
+| `/paper-revise [draft.tex]` | Iterative diff-based editing: propose → latexdiff → accept/reject → loop |
 
 ### Utilities
 
