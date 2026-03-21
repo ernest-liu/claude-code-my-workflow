@@ -41,6 +41,28 @@ Thumbs.db
 .claude/state/
 CLAUDE.local.md
 
+# ==============================================================================
+# Overleaf Integration
+# ==============================================================================
+# Uncomment the block below if this repo syncs with Overleaf.
+# Keeps Claude infrastructure local-only — Overleaf only sees .tex, .bib,
+# figures, and other files needed for compilation.
+#
+# .claude/
+# CLAUDE.md
+# PLAN.md
+# CONTEXT.md
+# MEMORY.md
+# REVIEW_STATE.json
+# AUTO_REVIEW.md
+# VERIFY_LOG.md
+# REVISION_LOG.md
+# *_proposed.tex
+# *_diff.tex
+# *_diff.pdf
+# tools/
+# raw/
+
 # IDE
 .vscode/
 .idea/

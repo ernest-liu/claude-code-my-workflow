@@ -85,6 +85,25 @@ When the user says "wrap up", "end session", or "update context", write a fresh 
 
 ---
 
+## Overleaf Integration
+
+If this project syncs with Overleaf, **only push files needed for compilation**.
+Claude infrastructure stays local via `.gitignore`.
+
+**What goes to Overleaf:** `.tex`, `.bib`, `.sty`, `.cls`, `figures/`, `.bst`
+**What stays local:** `.claude/`, `CLAUDE.md`, `PLAN.md`, `CONTEXT.md`, `MEMORY.md`, `raw/`, `tools/`, `*_proposed.tex`, `*_diff.*`
+
+**Setup:** Uncomment the "Overleaf Integration" block in `.gitignore`.
+
+**Workflow with `/paper-revise`:**
+1. Pull latest from Overleaf: `git pull overleaf main`
+2. Run `/paper-revise draft.tex` — edits stay local until accepted
+3. Accepted changes go into `draft.tex`
+4. Push to Overleaf: `git push overleaf main`
+5. Coauthor sees only the final `.tex` changes — no Claude artifacts
+
+---
+
 ## Commands
 
 ```bash
