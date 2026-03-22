@@ -180,6 +180,7 @@ find . -maxdepth 1 -type f \( -name "*.aux" -o -name "*.log" -o -name "*.nav" \
 | `/paper-compile` | latexmk build + auto-fix + page verification |
 | `/auto-paper-improvement-loop` | 2-round GPT review → fix → recompile |
 | `/paper-revise [draft.tex]` | Iterative diff-based editing: propose → latexdiff → accept/reject → loop |
+| `/de-ai [file]` | Remove AI-sounding patterns from academic writing |
 
 ### Utilities
 
