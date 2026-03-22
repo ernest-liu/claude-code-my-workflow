@@ -57,14 +57,7 @@ When the user says "wrap up", "end session", or "update context", write a fresh 
 
 ## Writing Style
 
-<!-- CUSTOMIZE: Define your prose and LaTeX conventions so Claude
-     writes in your voice. Delete the placeholders and add yours. -->
-
-- [Prose tone, e.g., "Formal propositions followed by interpretive discussion"]
-- [Interpretation phrases, e.g., "Use 'Intuitively,...', 'This implies...'"]
-- [LaTeX conventions, e.g., "`\bm{}` for vectors/matrices, `\left( \right)` for delimiters"]
-- [Document format, e.g., "12pt font, 1in margins, onehalfspacing"]
-- [Edit display convention, e.g., "Highlight changes with **bold** insertions and ~~strikethrough~~ deletions"]
+When writing academic papers, lead with narrative and economic intuition — open with the core question or puzzle, ground abstract ideas in concrete examples and analogies, and build a clear story arc so the reader understands the big idea within the first page. Use running examples and real-world illustrations to anchor theoretical results. Keep sentences as concise as clarity allows, and weave literature references into the argument rather than cataloging them in separate enumerated sections. At the same time, be thorough: systematically enumerate distinct mechanisms and channels when presenting model results, preview key findings in the introduction, and address potential concerns and caveats upfront. When these two impulses conflict — concise narrative versus exhaustive coverage — favor the narrative. Completeness should serve the story, not bury it.
 
 ---
 
