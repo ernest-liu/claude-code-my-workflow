@@ -92,7 +92,13 @@ what each numbered item refers to when reviewing the diff.
 gitdiff "${DRAFT}" "${DRAFT}_proposed" "${DRAFT}_diff"
 ```
 
-This runs `latexdiff` and compiles to PDF. If it fails:
+This runs `latexdiff` and compiles to PDF. After each diff compilation, clean aux files:
+
+```bash
+find . -maxdepth 1 -type f \( -name "${DRAFT}_diff.aux" -o -name "${DRAFT}_diff.log" -o -name "${DRAFT}_diff.out" -o -name "${DRAFT}_diff.nav" -o -name "${DRAFT}_diff.snm" -o -name "${DRAFT}_diff.toc" -o -name "${DRAFT}_diff.synctex.gz" -o -name "${DRAFT}_diff.bbl" -o -name "${DRAFT}_diff.blg" -o -name "${DRAFT}_diff.fls" -o -name "${DRAFT}_diff.fdb_latexmk" \) -delete
+```
+
+If `gitdiff` fails:
 1. Check for latexdiff compatibility issues (e.g., math mode changes)
 2. Try with `--math-markup=0` flag if math causes problems:
    ```bash
