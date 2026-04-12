@@ -69,10 +69,11 @@ Edit `${DRAFT}_proposed.tex` with your proposed revisions. For each change:
 - Prefer targeted surgical edits over wholesale rewrites
 - Preserve the author's voice — improve, don't replace
 
-**Writing clarity rules (ALWAYS enforce):**
+**Writing clarity rules (CRITICAL — this is the most important part of the review):**
+- **Intuitive, natural language is the top priority.** The reader should grasp the economic idea from the words alone, before seeing any equation. If a passage requires the reader to decode jargon or parse nested qualifications to understand the point, it has failed. Rewrite it in plain language.
 - Prefer plain, intuitive language over technical jargon. If a sentence can be understood by a first-year PhD student without looking anything up, it is better than one that requires specialist vocabulary.
 - Technical terms and labels (e.g., "bilateral Lerner symmetry", "sufficient-statistics structure") should appear only in formal sections where they are defined and explained. Abstracts and introductions should convey the economic content in plain words.
-- Every formal result should be preceded by verbal intuition explaining what it says and why it matters, and followed by an interpretation paragraph ("Intuitively, ..."). This is the intuition-formalism-interpretation triple.
+- Every formal result should be preceded by verbal intuition explaining what it says and why it matters, and followed by an interpretation paragraph ("Intuitively, ..."). This is the intuition-formalism-interpretation triple. The intuition is not optional decoration — it is the primary way readers understand the result.
 - Do NOT optimize prose to impress a reviewer model. Jargon-dense writing scores well with LLM reviewers but poorly with human readers. Clarity is the goal, not signaling sophistication.
 - When proposing changes, flag any passage where jargon can be replaced by plain language without losing precision. Propose the plain-language version.
 - Follow the author's writing style guide (`~/.claude/skills/writing-style/SKILL.md`) for tone, sentence structure, and rhetorical patterns.

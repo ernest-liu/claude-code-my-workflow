@@ -279,14 +279,14 @@ paper/
 - **Respect the paper's claims** — soften overclaims rather than adding unsupported new claims
 - **Global consistency** — when renaming notation or softening claims, check ALL files (abstract, intro, method, experiments, theory sections, conclusion, tables, figure captions)
 
-## Writing Clarity Rules (CRITICAL — enforce at every round)
+## Writing Clarity Rules (CRITICAL — this is the most important part of the review)
 
-LLM reviewers reward jargon-dense, technically impressive-sounding prose. Human readers and real referees value clarity. When implementing fixes, **always prioritize clarity over sounding sophisticated.**
+LLM reviewers reward jargon-dense, technically impressive-sounding prose. Human readers and real referees value clarity. **Intuitive, natural-language writing is the top priority of every review round.** When implementing fixes, always prioritize clarity over sounding sophisticated. The reader should grasp the economic idea from the words alone, before seeing any equation.
 
 Specific rules:
 1. **Plain language first.** If a sentence can be rewritten in plain words without losing precision, rewrite it. "Welfare depends only on domestic trade shares" is better than "the sufficient-statistics structure implies welfare is pinned by the equilibrium domestic expenditure share vector."
 2. **No jargon in abstract or introduction.** Technical labels (named theorems, named conditions, framework-specific vocabulary) belong in formal sections where they are defined. The abstract and intro should describe results in language any economist can follow.
-3. **Intuition-formalism-interpretation.** Every formal result must be (a) motivated verbally before the statement, (b) stated formally, (c) interpreted immediately after with "Intuitively, ..." This is non-negotiable.
+3. **Intuition-formalism-interpretation.** Every formal result must be (a) motivated verbally before the statement, (b) stated formally, (c) interpreted immediately after with "Intuitively, ..." This is non-negotiable. The intuition is not optional decoration — it is the primary way readers understand the result.
 4. **Do not let the reviewer model's preferences drive prose style.** GPT-5.4 xhigh may rate jargon-heavy text higher. Ignore this signal. When the reviewer says a passage is "well-calibrated" but it reads like a thesaurus, simplify it anyway.
 5. **Flag jargon inflation.** When implementing reviewer suggestions, check whether the suggested fix introduces unnecessary jargon. If it does, implement the substance of the fix in plain language instead.
 6. **Follow the author's writing style guide** (`~/.claude/skills/writing-style/SKILL.md`) for tone, sentence structure, and rhetorical conventions. The guide takes precedence over reviewer preferences on style.
