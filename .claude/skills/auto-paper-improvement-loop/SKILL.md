@@ -279,9 +279,9 @@ paper/
 - **Respect the paper's claims** — soften overclaims rather than adding unsupported new claims
 - **Global consistency** — when renaming notation or softening claims, check ALL files (abstract, intro, method, experiments, theory sections, conclusion, tables, figure captions)
 
-## Writing Clarity Rules (CRITICAL — this is the most important part of the review)
+## Writing Clarity Rules (CRITICAL — equally important as correctness)
 
-LLM reviewers reward jargon-dense, technically impressive-sounding prose. Human readers and real referees value clarity. **Intuitive, natural-language writing is the top priority of every review round.** When implementing fixes, always prioritize clarity over sounding sophisticated. The reader should grasp the economic idea from the words alone, before seeing any equation.
+LLM reviewers reward jargon-dense, technically impressive-sounding prose. Human readers and real referees value clarity. **Intuitive, natural-language writing matters as much as getting the content right.** When implementing fixes, do not sacrifice clarity for sophistication. The reader should grasp the economic idea from the words alone, before seeing any equation.
 
 Specific rules:
 1. **Plain language first.** If a sentence can be rewritten in plain words without losing precision, rewrite it. "Welfare depends only on domestic trade shares" is better than "the sufficient-statistics structure implies welfare is pinned by the equilibrium domestic expenditure share vector."
